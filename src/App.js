@@ -51,22 +51,22 @@
         </h1>
         <motion.a
           href="#A-propos"
-          className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold py-3 px-6 rounded-full text-lg transition-colors shadow-lg hover:shadow-xl m-5	 "
+          className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold py-3 px-6 rounded-full text-sm transition-colors shadow-lg hover:shadow-xl md:mr-5"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           Découvrez mon univers
         </motion.a>
-      
+
         <motion.a
-          href="https://drive.google.com/file/d/1NIJRzFIa3I7a8kVUIycF0HDBwBl6I6HP/view?usp=drive_link"
+          href="https://drive.google.com/file/d/1yfrBHLxgtr0B4NJauYEwnoUCPVrmOGJE/view?usp=sharing"
           target='_Blank'
-          className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold py-3 px-6 rounded-full text-lg transition-colors shadow-lg hover:shadow-xl m-5"
+          className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold py-3 px-6 rounded-full text-sm transition-colors shadow-lg hover:shadow-xl md:ml-5 text-center"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           Téléchargez Mon CV
-        </motion.a>
+      </motion.a>
       </motion.div>
     </section>
   );
@@ -198,7 +198,7 @@
           <h2 className="text-4xl font-bold mb-12">Mes Compétences</h2>
   
           {/* Conteneur global pour le centre des deux cercles */}
-          <div className="relative flex items-center justify-center w-[600px] h-[600px] mx-auto">
+          <div className="relative flex items-center justify-center w-[90vw] h-[90vw] max-w-[600px] max-h-[600px] mx-auto">
             {/* Premier cercle (intérieur) */}
             <motion.div
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -207,7 +207,7 @@
             >
               {technologiesInner.map((tech, index) => {
                 const angle = index * (360 / technologiesInner.length);
-                const radius = 100;
+                const radius = 70; // Ajuster le rayon pour s'adapter à la taille
                 const x = radius * Math.cos((angle * Math.PI) / 180);
                 const y = radius * Math.sin((angle * Math.PI) / 180);
   
@@ -224,7 +224,7 @@
                     transition={{ type: 'spring', stiffness: 300 }}
                     title={tech.name}
                   >
-                    <div className="text-4xl">{tech.icon}</div>
+                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{tech.icon}</div>
                   </motion.div>
                 );
               })}
@@ -238,7 +238,7 @@
             >
               {technologiesOuter.map((tech, index) => {
                 const angle = index * (360 / technologiesOuter.length);
-                const radius = 200;
+                const radius = 140; // Ajuster le rayon pour s'adapter à la taille
                 const x = radius * Math.cos((angle * Math.PI) / 180);
                 const y = radius * Math.sin((angle * Math.PI) / 180);
   
@@ -255,7 +255,7 @@
                     transition={{ type: 'spring', stiffness: 300 }}
                     title={tech.name}
                   >
-                    <div className="text-4xl">{tech.icon}</div>
+                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{tech.icon}</div>
                   </motion.div>
                 );
               })}
@@ -265,8 +265,6 @@
       </section>
     );
   };
-
-  
 
   const Works = () => (
     <section id="Projets" className="min-h-screen py-20 bg-gray-100">
@@ -284,7 +282,7 @@
             { title: 'Portfolio', desc: 'Site web personnel (Portfolio)', image: 'Portfolio.png' },
             { title: 'JoJo EnergyDrink', desc: 'SIte web de Jojo EnergyDrink', image: 'JoJo.jpg' },
             { title: 'Eventopia', desc: 'Plateform de suivi d\'evenment (INCOMPLET) ', image: '#.jpg' },
-            { title: 'KoubaMed', desc: 'System de Gestion Cabinet medical', image: '#.jpg' },
+            { title: 'Kou baMed', desc: 'System de Gestion Cabinet medical', image: '#.jpg' },
             { title: '###', desc: '####', image: '#.jpg' },
             { title: '###', desc: '####', image: '#.jpg' }
           ].map((project, index) => (
@@ -397,7 +395,6 @@
     return (
       <section id="contact" className="min-h-screen py-20 bg-gradient-to-br from-green-400 to-blue-500 text-white">
         <div className="container mx-auto px-6">
-  
           <motion.h2
             className="text-4xl font-bold mb-12 text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -407,7 +404,7 @@
             Contactez-moi
           </motion.h2>
           <motion.div
-            className="max-w-3xl mx-auto bg-white text-gray-800 p-8 rounded-lg shadow-lg "
+            className="max-w-3xl mx-auto bg-white text-gray-800 p-8 rounded-lg shadow-lg flex flex-wrap justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -420,6 +417,35 @@
                 contact.adlanehz@gmail.com
               </a>
             </div>
+             {/* Liens sociaux */}
+             <div className="flex justify-center space-x-6 mt-8">
+              <motion.a
+                href="https://github.com/adlanehzx"
+                target='_blank'
+                rel="noopener noreferrer"
+                className="text-3xl text-gray-600 hover:text-blue-600 transition-colors"
+                whileHover={{ scale: 1.2 }}
+              >
+                <FaGithub />
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/adlane-hamzaoui/"
+                target='_blank'
+                rel="noopener noreferrer"
+                className="text-3xl text-gray-600 hover:text-blue-400 transition-colors"
+                whileHover={{ scale: 1.2 }}
+              >
+                <FaLinkedin />
+              </motion.a>
+              <motion.a
+                href="mailto:contact.adlanehz@gmail.com"
+                className="text-3xl text-gray-600 hover:text-pink-600 transition-colors"
+                whileHover={{ scale: 1.2 }}
+              >
+                <FaEnvelope />
+              </motion.a>
+            </div>
+            <br></br>
             <p className="text-center mb-8 text-lg">
               Mon profil vous intéresse ? Programmez un rendez-vous Google Meet !
             </p>
@@ -486,6 +512,7 @@
                 <p className="text-lg text-red-500">{error}</p>
               </div>
             )}
+            
           </motion.div>
         </div>
       </section>
@@ -496,17 +523,17 @@
   const Footer = () => (
     <footer className="bg-gray-900 text-white py-8">
       <div className="container mx-auto px-6 text-center">
-        <p> 2023 Hamzaoui Adlane. Tous droits réservés.</p>
+        <p> 2024 Hamzaoui Adlane. Tous droits réservés.</p>
       </div>
     </footer>
   );
 
   const Portfolio = () => {
     const [activeSection, setActiveSection] = useState('intro');
-
+  
     useEffect(() => {
       const handleScroll = () => {
-        const sections = ['intro', 'A-propos', 'Competences', 'Technologies','Spiral', 'Projets', 'contact'];
+        const sections = ['intro', 'A-propos', 'Competences', 'Technologies', 'Spiral', 'Projets', 'contact'];
         const currentSection = sections.find(section => {
           const element = document.getElementById(section);
           if (element) {
@@ -517,11 +544,11 @@
         });
         if (currentSection) setActiveSection(currentSection);
       };
-
+  
       window.addEventListener('scroll', handleScroll);
       return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
+  
     return (
       <div className="portfolio">
         <Header activeSection={activeSection} />
@@ -532,7 +559,7 @@
         <Works />
         <Contact />
         <Footer />
-        <motion.button 
+        <motion.button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-8 right-8 bg-yellow-400 text-gray-800 p-3 rounded-full shadow-lg hover:bg-yellow-300 transition-colors"
           whileHover={{ scale: 1.1 }}
@@ -543,5 +570,6 @@
       </div>
     );
   };
+  
 
-  export default Portfolio;
+  export default Portfolio; 
