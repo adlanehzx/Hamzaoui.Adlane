@@ -325,7 +325,6 @@
     const [success, setSuccess] = useState(null);
   
     useEffect(() => {
-      // Load Google API script
       const script = document.createElement('script');
       script.src = 'https://apis.google.com/js/api.js';
       script.onload = () => {
@@ -335,12 +334,19 @@
     }, []);
   
     const initClient = () => {
-      window.gapi.client.init({
-        apiKey: 'AIzaSyCNJm7EiOsAPswZ3xCnR5NDlNh4rnq8VYE',
-        clientId: '379868080869-oj8n87kl8romi7320mj2hnbstoeev3ii.apps.googleusercontent.com',
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-        scope: 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar',
-      });
+      window.gapi.client
+        .init({
+          apiKey: 'AIzaSyCNJm7EiOsAPswZ3xCnR5NDlNh4rnq8VYE',
+          clientId: '379868080869-oj8n87kl8romi7320mj2hnbstoeev3ii.apps.googleusercontent.com',
+          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+          scope: 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar',
+        })
+        .then(() => {
+          console.log("Google API client initialized successfully.");
+        })
+        .catch((err) => {
+          console.error("Erreur lors de l'initialisation du client Google API :", err);
+        });
     };
   
     const handleDateChange = (date) => {
@@ -353,10 +359,12 @@
   
     const handleSubmit = async () => {
       setIsLoading(true);
+      setError(null);
+      setSuccess(null);
   
       try {
-        // Check if user is already signed in
         const authInstance = window.gapi.auth2.getAuthInstance();
+  
         if (!authInstance.isSignedIn.get()) {
           await authInstance.signIn();
         }
@@ -366,7 +374,7 @@
         const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000); // 1 hour later
   
         const event = {
-          summary: 'Rendez-vous Portfolio',
+          summary: 'Rendez-vous',
           description: 'Rendez-vous programmé depuis le portfolio',
           start: {
             dateTime: startDateTime.toISOString(),
@@ -378,13 +386,11 @@
           },
           conferenceData: {
             createRequest: {
-              requestId: 'random-' + new Date().getTime(),
+              requestId: `random-${new Date().getTime()}`,
               conferenceSolutionKey: { type: 'hangoutsMeet' },
             },
           },
-          attendees: [
-            { email: 'Contact.adlanehz@gmail.com' } // Your email
-          ],
+          attendees: [{ email: 'Contact.adlanehz@gmail.com' }],
         };
   
         const response = await window.gapi.client.calendar.events.insert({
@@ -394,18 +400,23 @@
           sendUpdates: 'all',
         });
   
-        setSuccess(`Rendez-vous programmé pour le ${startDateTime.toLocaleString()}. Lien Google Meet : ${response.result.hangoutLink}`);
+        if (response.status === 200) {
+          setSuccess(`Rendez-vous programmé pour le ${startDateTime.toLocaleString()}. Lien Google Meet : ${response.result.hangoutLink}`);
+        } else {
+          throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+        }
       } catch (error) {
-        setError('Erreur lors de la création de l\'événement. Veuillez réessayer.');
         console.error('Erreur lors de la création de l\'événement :', error);
+        setError(`Erreur lors de la création de l'événement : ${error.message || 'Non spécifiée'}`);
       } finally {
         setIsLoading(false);
       }
     };
-  
+
     return (
       <section id="contact" className="min-h-screen py-20 bg-gradient-to-br from-green-400 to-blue-500 text-white">
         <div className="container mx-auto px-6">
+  
           <motion.h2
             className="text-4xl font-bold mb-12 text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -415,7 +426,7 @@
             Contactez-moi
           </motion.h2>
           <motion.div
-            className="max-w-3xl mx-auto bg-white text-gray-800 p-8 rounded-lg shadow-lg flex flex-wrap justify-center"
+            className="max-w-3xl mx-auto bg-white text-gray-800 p-8 rounded-lg shadow-lg "
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -529,7 +540,6 @@
       </section>
     );
   };
-  
   
   const Footer = () => (
     <footer className="bg-gray-900 text-white py-8">
