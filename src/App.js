@@ -204,12 +204,12 @@
   
   const Skills = () => {
     return (
-      <section id="Technologies" className="min-h-screen bg-gray-900 text-white py-20 flex items-center justify-center">
+      <section id="Technologies" className="h-screen bg-gray-900 text-white py-20 flex items-center justify-center">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold mb-12">Mes Compétences</h2>
   
           {/* Conteneur global pour le centre des deux cercles */}
-          <div className="relative flex items-center justify-center w-[90vw] h-[90vw] max-w-[600px] max-h-[600px] mx-auto">
+          <div className="relative flex items-center justify-center w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] mx-auto">
             {/* Premier cercle (intérieur) */}
             <motion.div
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -218,7 +218,7 @@
             >
               {technologiesInner.map((tech, index) => {
                 const angle = index * (360 / technologiesInner.length);
-                const radius = 70; // Ajuster le rayon pour s'adapter à la taille
+                const radius = 100; // Augmenté pour éviter le chevauchement
                 const x = radius * Math.cos((angle * Math.PI) / 180);
                 const y = radius * Math.sin((angle * Math.PI) / 180);
   
@@ -235,7 +235,7 @@
                     transition={{ type: 'spring', stiffness: 300 }}
                     title={tech.name}
                   >
-                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{tech.icon}</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">{tech.icon}</div>
                   </motion.div>
                 );
               })}
@@ -249,7 +249,7 @@
             >
               {technologiesOuter.map((tech, index) => {
                 const angle = index * (360 / technologiesOuter.length);
-                const radius = 140; // Ajuster le rayon pour s'adapter à la taille
+                const radius = 200; // Augmenté pour éviter le chevauchement
                 const x = radius * Math.cos((angle * Math.PI) / 180);
                 const y = radius * Math.sin((angle * Math.PI) / 180);
   
@@ -266,7 +266,7 @@
                     transition={{ type: 'spring', stiffness: 300 }}
                     title={tech.name}
                   >
-                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{tech.icon}</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">{tech.icon}</div>
                   </motion.div>
                 );
               })}
@@ -276,7 +276,7 @@
       </section>
     );
   };
-
+  
   const Works = () => (
     <section id="Projets" className="min-h-screen py-20 bg-gray-100">
       <div className="container mx-auto px-6">
