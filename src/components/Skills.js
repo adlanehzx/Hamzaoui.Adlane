@@ -28,6 +28,7 @@ import {
   SiGatsby,
   SiInsomnia,
 } from "react-icons/si";
+
 const technologiesInner = [
   { name: "React", icon: <FaReact className="text-blue-400" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
@@ -66,12 +67,25 @@ const Skills = () => {
   // Fonction de mise à jour du rayon à chaque redimensionnement
   useEffect(() => {
     const handleResize = () => {
-      setInnerRadius(window.innerWidth * 0.1); // 10% de la largeur de la fenêtre
-      setOuterRadius(window.innerWidth * 0.15); // 15% de la largeur de la fenêtre
+      const width = window.innerWidth;
+      if (width < 640) {
+        // Mobile
+        setInnerRadius(width * 0.2);
+        setOuterRadius(width * 0.3);
+      } else if (width < 1024) {
+        // Tablet
+        setInnerRadius(width * 0.15);
+        setOuterRadius(width * 0.25);
+      } else {
+        // Desktop
+        setInnerRadius(width * 0.1);
+        setOuterRadius(width * 0.15);
+      }
     };
 
-    window.addEventListener("resize", handleResize); // Écouteur d'événements de redimensionnement
-    return () => window.removeEventListener("resize", handleResize); // Nettoyage de l'écouteur
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Appel initial pour définir les valeurs correctes
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
