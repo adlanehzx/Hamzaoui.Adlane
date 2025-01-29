@@ -40,13 +40,31 @@ const professionalExperience = [
     title: "Stage Developpement Front End",
     desc: "Stage de développement Front End chez Keyu",
     technologies: ["React", "HTML", "CSS", "JavaScript", "Tailwind CSS"],
-    features: ["Interface interne", "Responsive Design", "SEO"],
+    features: [
+      "Conception et développement de pages interactives en utilisant HTML, CSS et React Js.",
+
+      "Identification et correction des bugs dans le code, amélioration des performances et optimisation du site pour une utilisation fluide et sans erreurs.",
+
+      "Travail selon la méthodologie Agile pour assurer une gestion efficace du projet et une livraison continue des fonctionnalités.",
+
+      "Utilisation de Jira et du système de tickets pour le suivi et la gestion des tâches.",
+    ],
   },
   {
     title: "Stage developpeur & testeur",
     desc: "Stage chez Ethos Développement de test automatisé",
     technologies: ["Maestro", "DETOX", "React Native", "CI/CD"],
-    features: ["Front end ", "Automations Tests", "CI/CD"],
+    features: [
+      "Test Strategy and Planning: Collaborate with cross-functional teams to define test requirements and develop a comprehensive test strategy, ensuring full coverage of the app's key functionalities",
+
+      "Test Script Development: Write and automate UI and functional test scripts for core features like wallet creation, transactions, and login/logout, using frameworks such as Detox or Appium.",
+
+      "Integration and End-to-End Testing: Ensure automated tests cover end-to-end workflows, including blockchain interactions and third-party integrations, to validate the full user journey.",
+
+      "Security and Edge Case Testing: Focus on testing security features and edge cases such as network failures, invalid transactions, and wallet protection to ensure robustness and safety in crypto operations.",
+
+      "Continuous Integration (CI) / Continuous Deployment (CD): Integrate automation tests into the CI/CD pipeline to ensure rapid, consistent feedback and seamless delivery of bug-free updates.",
+    ],
   },
 ];
 
@@ -176,8 +194,10 @@ const Works = () => (
                 </div>
                 <div>
                   <p className="text-gray-800 font-medium mb-2">
-                    Fonctionnalités:
-                  </p>
+                    {section.title === "Expérience Professionnelle"
+                      ? "Compétences"
+                      : "Features"}
+                  </p>{" "}
                   <ul className="list-disc pl-4 space-y-1">
                     {project.features.map((feature, i) => (
                       <li key={i} className="text-gray-600">
