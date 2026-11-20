@@ -806,3 +806,513 @@ footer {
 .stage:has(.project-surface) .stage-note {
   bottom: 0;
 }
+/* Shared SVG language and project controls. */
+svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+nav a,
+.intro-bottom > a,
+.text-link,
+.case-study a,
+.footer-bottom a,
+.work-details > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+nav a:last-child span,
+.intro-bottom a span {
+  display: inline-flex;
+}
+.work-arrow {
+  width: 28px;
+  height: 28px;
+}
+.ticket-bottom > svg {
+  width: 22px;
+  height: 22px;
+}
+.kanban button > span svg {
+  width: 14px;
+  height: 14px;
+}
+.contact > span {
+  display: flex;
+}
+.contact svg {
+  width: clamp(45px, 8vw, 120px);
+  height: clamp(45px, 8vw, 120px);
+}
+.surface-top button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+}
+.project-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+}
+.project-navigation button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 11px;
+}
+.project-navigation button span {
+  font-size: 9px;
+  color: #777;
+}
+.project-navigation button[aria-pressed="true"] {
+  border-color: var(--line);
+  background: #f6f5f0;
+}
+.surface-paging {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.surface-paging button {
+  background: transparent;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+.surface-paging > span {
+  font-size: 12px;
+}
+.surface-paging small {
+  font-size: 9px;
+  color: #777;
+  margin-left: 12px;
+}
+.stage {
+  height: 530px;
+}
+.stage-note {
+  bottom: 4px;
+}
+.project-surface {
+  top: 5%;
+}
+.coordinates {
+  bottom: 110px;
+}
+@media (min-width: 701px) and (max-width: 1024px) {
+  h1 {
+    font-size: clamp(70px, 9vw, 100px);
+  }
+  .stage {
+    margin-top: -50px;
+    height: 530px;
+  }
+  .object-wrap {
+    width: 340px;
+    height: 310px;
+    transform: translate(-40%, -50%);
+  }
+  .project-surface {
+    left: 36%;
+    max-width: 62%;
+    width: 510px;
+    top: 7%;
+  }
+  .about-grid {
+    gap: 6%;
+  }
+  .work-select {
+    grid-template-columns: 9% 42% 1fr 30px;
+  }
+  .work-stack {
+    font-size: 10px;
+  }
+  .work-name {
+    font-size: 48px;
+  }
+}
+@media (max-width: 700px) {
+  html {
+    scroll-padding-top: 16px;
+  }
+  header {
+    height: auto;
+    min-height: 88px;
+    gap: 20px;
+    padding: 20px 0;
+    align-items: center;
+  }
+  nav {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    font-size: 12px;
+  }
+  nav a {
+    min-height: 44px;
+    gap: 4px;
+  }
+  nav a:last-child span {
+    margin-left: 0;
+  }
+  .signature {
+    flex-shrink: 0;
+    line-height: 0.95;
+    font-size: 20px;
+  }
+  .atelier {
+    padding-top: 20px;
+  }
+  .edition {
+    gap: 16px;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+  .edition span:last-child {
+    max-width: 125px;
+  }
+  h1 {
+    font-size: clamp(54px, 12.4vw, 86px);
+    line-height: 1.02;
+    letter-spacing: -0.065em;
+    margin-top: 32px;
+  }
+  .stage {
+    height: 390px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 0;
+    gap: 12px;
+  }
+  .object-wrap {
+    top: 40%;
+    width: 250px;
+    height: 230px;
+    transform: translate(-50%, -50%);
+  }
+  .coordinates {
+    left: 0;
+    bottom: 104px;
+    font-size: 7px;
+  }
+  .project-navigation {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 3;
+    width: 100%;
+    gap: 0;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+  }
+  .project-navigation button {
+    flex: 1;
+    justify-content: center;
+    padding: 9px 4px;
+    min-height: 48px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .stage-note {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    font-size: 9px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 0 6px;
+  }
+  .stage:has(.project-surface) .stage-note {
+    bottom: auto;
+  }
+  .stage.unfolded {
+    height: auto;
+    min-height: 480px;
+    padding-top: 22px;
+  }
+  .unfolded .object-wrap {
+    top: 140px;
+    opacity: 0.35;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  .unfolded .coordinates {
+    display: none;
+  }
+  .project-surface {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    transform: none;
+    animation: mobile-unfold 0.35s ease both;
+    box-shadow: 0 14px 32px #26251c12;
+    margin-bottom: 8px;
+  }
+  .surface-top {
+    font-size: 9px;
+    margin-bottom: 10px;
+    min-height: 44px;
+  }
+  .surface-caption {
+    font-size: 9px;
+    line-height: 1.6;
+    gap: 18px;
+    letter-spacing: 0;
+    align-items: start;
+  }
+  .surface-caption span:last-child {
+    max-width: 82px;
+    text-align: right;
+  }
+  .ticket {
+    height: 230px;
+    padding: 18px;
+  }
+  .ticket strong {
+    font-size: 45px;
+  }
+  .ticket-bottom {
+    font-size: 8px;
+    letter-spacing: 0.4px;
+    gap: 8px;
+    align-items: center;
+  }
+  .barcode {
+    right: 18px;
+    width: 48px;
+    height: 85px;
+  }
+  .bike-demo {
+    height: 230px;
+  }
+  .bike-demo input {
+    height: 44px;
+    bottom: 4px;
+  }
+  .bike-captions {
+    font-size: 8px;
+    left: 8px;
+    right: 8px;
+  }
+  .kanban {
+    height: 250px;
+    padding: 8px;
+    gap: 5px;
+  }
+  .kanban > div {
+    min-width: 0;
+    padding: 7px 5px;
+    font-size: 10px;
+  }
+  .kanban > div > span {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .kanban button {
+    padding: 9px 6px;
+    line-height: 1.5;
+    min-height: 130px;
+    font-size: 11px;
+  }
+  .kanban button small {
+    font-size: 9px;
+  }
+  .intro-bottom {
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    padding: 28px 0 32px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .intro-bottom p {
+    max-width: 100%;
+  }
+  .intro-bottom > a {
+    min-height: 44px;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .work-select {
+    grid-template-columns: 35px minmax(0, 1fr) 24px;
+    gap: 7px;
+    padding: 24px 0;
+    min-height: 110px;
+  }
+  .work-select:hover {
+    padding-left: 0;
+  }
+  .work-number {
+    gap: 7px;
+  }
+  .work-name {
+    font-size: 45px;
+    letter-spacing: -1.5px;
+  }
+  .work-name small {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .work-arrow {
+    width: 24px;
+    height: 24px;
+  }
+  .work-details {
+    padding: 0 0 28px 42px;
+  }
+  .work-details > p {
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+  .work-details > button {
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .case-study {
+    overflow-wrap: anywhere;
+  }
+  .case-study img {
+    width: 100%;
+    height: auto;
+  }
+  .section-label {
+    gap: 14px;
+    line-height: 1.6;
+    font-size: 9px;
+  }
+  .section-label > span {
+    text-align: right;
+  }
+  .about-grid {
+    gap: 26px;
+  }
+  .statement {
+    font-size: clamp(35px, 9.5vw, 55px);
+    letter-spacing: -1.5px;
+  }
+  .about-grid > div {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .text-link {
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .timeline article {
+    padding: 24px 0;
+  }
+  .timeline article > span {
+    line-height: 1.6;
+    font-size: 11px;
+  }
+  .timeline p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .timeline small {
+    font-size: 12px;
+  }
+  footer {
+    padding-top: 40px;
+  }
+  .contact {
+    font-size: clamp(56px, 14vw, 95px);
+    padding: 18px 0 25px;
+    letter-spacing: -0.06em;
+    gap: 12px;
+  }
+  .contact svg {
+    width: 40px;
+    height: 40px;
+  }
+  .footer-bottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px 12px;
+    padding-top: 20px;
+    font-size: 12px;
+  }
+  .footer-bottom > span {
+    grid-column: 1/-1;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+  .footer-bottom a {
+    min-height: 44px;
+  }
+  .footer-bottom > a:last-child {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 360px) {
+  nav {
+    gap: 0 12px;
+    font-size: 11px;
+  }
+  nav a:last-child {
+    display: none;
+  }
+  .signature {
+    font-size: 19px;
+  }
+  .project-navigation button {
+    font-size: 11px;
+  }
+  .project-navigation button span {
+    font-size: 8px;
+  }
+  .work-name {
+    font-size: 39px;
+  }
+  .kanban {
+    padding: 5px;
+    gap: 4px;
+  }
+  .kanban > div {
+    padding: 5px 3px;
+  }
+  .kanban button {
+    font-size: 10px;
+  }
+  .ticket strong {
+    font-size: 40px;
+  }
+}
+@keyframes mobile-unfold {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

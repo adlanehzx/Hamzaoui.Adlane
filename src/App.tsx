@@ -1,4 +1,14 @@
 import { useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowDown,
+  ArrowUp,
+  ArrowLeft,
+  ArrowRight,
+  X,
+  Plus,
+  Minus,
+} from "lucide-react";
 import { experiences, personalInfo } from "./data/portfolioData";
 
 const works = [
@@ -59,7 +69,10 @@ function App() {
           </a>
           <a href="#parcours">À propos</a>
           <a href="mailto:contact.adlanehz@gmail.com">
-            Parlons-en <span>↗</span>
+            Parlons-en{" "}
+            <span>
+              <ArrowUpRight aria-hidden="true" />
+            </span>
           </a>
         </nav>
       </header>
@@ -154,7 +167,7 @@ function App() {
                     onClick={() => setActive(null)}
                     aria-label="Replier le projet"
                   >
-                    ↙
+                    <X aria-hidden="true" />
                   </button>
                 </div>
                 {active === 0 && (
@@ -171,7 +184,7 @@ function App() {
                       {ticket
                         ? "ENTRÉE / 001 — DÉMONSTRATION"
                         : "PARIS · 21:00 · ADMET UNE PERSONNE"}
-                      <i>↗</i>
+                      <ArrowUpRight aria-hidden="true" />
                     </span>
                     <span className="barcode" aria-hidden="true" />
                   </button>
@@ -223,7 +236,7 @@ function App() {
                             Dessiner la suite
                             <small>Interface · cliquer ou déplacer</small>
                             <span>
-                              AH <b>↗</b>
+                              AH <ArrowRight aria-hidden="true" />
                             </span>
                           </button>
                         )}
@@ -231,6 +244,23 @@ function App() {
                     ))}
                   </div>
                 )}
+                <div className="surface-paging">
+                  <button
+                    aria-label="Projet précédent"
+                    onClick={() => select(((active ?? 0) + 2) % 3)}
+                  >
+                    <ArrowLeft aria-hidden="true" />
+                  </button>
+                  <span>
+                    {work.name} <small>0{(active ?? 0) + 1} / 03</small>
+                  </span>
+                  <button
+                    aria-label="Projet suivant"
+                    onClick={() => select(((active ?? 0) + 1) % 3)}
+                  >
+                    <ArrowRight aria-hidden="true" />
+                  </button>
+                </div>
                 <div className="surface-caption">
                   <span>
                     {active === 0
@@ -243,6 +273,18 @@ function App() {
                 </div>
               </div>
             )}
+            <div className="project-navigation" aria-label="Choisir un projet">
+              {works.map((project, index) => (
+                <button
+                  key={project.name}
+                  aria-pressed={active === index}
+                  onClick={() => select(index)}
+                >
+                  <span>0{index + 1}</span>
+                  {project.name}
+                </button>
+              ))}
+            </div>
             <span className="stage-note">
               {work
                 ? "Une idée. Puis une interface."
@@ -256,7 +298,10 @@ function App() {
               de l’interface à ce qui la fait fonctionner.
             </p>
             <a href="#projets">
-              Explorer les travaux <span>↓</span>
+              Explorer les travaux{" "}
+              <span>
+                <ArrowDown aria-hidden="true" />
+              </span>
             </a>
           </div>
         </section>
@@ -293,7 +338,7 @@ function App() {
                   <small>{p.type}</small>
                 </span>
                 <span className="work-stack">{p.stack}</span>
-                <span className="work-arrow">↗</span>
+                <ArrowUpRight className="work-arrow" aria-hidden="true" />
               </button>
               {active === i && (
                 <div className="work-details">
@@ -302,7 +347,12 @@ function App() {
                     onClick={() => setDetail(!detail)}
                     aria-expanded={detail}
                   >
-                    {detail ? "Fermer" : "Notes & aperçu"} {detail ? "−" : "+"}
+                    {detail ? "Fermer" : "Notes & aperçu"}{" "}
+                    {detail ? (
+                      <Minus aria-hidden="true" />
+                    ) : (
+                      <Plus aria-hidden="true" />
+                    )}
                   </button>
                   {detail && (
                     <div className="case-study">
@@ -329,7 +379,8 @@ function App() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Explorer le code de Leynai ↗
+                          Explorer le code de Leynai{" "}
+                          <ArrowUpRight aria-hidden="true" />
                         </a>
                       )}
                     </div>
@@ -366,7 +417,7 @@ function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Ouvrir mon CV ↗
+                Ouvrir mon CV <ArrowUpRight aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -386,7 +437,10 @@ function App() {
         <footer id="contact">
           <span className="footer-label">LA SUITE SE CONSTRUIT À DEUX.</span>
           <a className="contact" href={`mailto:${personalInfo.email}`}>
-            On en parle<span>↗</span>
+            On en parle
+            <span>
+              <ArrowUpRight aria-hidden="true" />
+            </span>
           </a>
           <div className="footer-bottom">
             <span>Adlane Hamzaoui © {new Date().getFullYear()}</span>
@@ -395,17 +449,21 @@ function App() {
               target="_blank"
               rel="noreferrer"
             >
-              GitHub ↗
+              GitHub <ArrowUpRight aria-hidden="true" />
             </a>
             <a
               href="https://linkedin.com/in/adlane-hamzaoui"
               target="_blank"
               rel="noreferrer"
             >
-              LinkedIn ↗
+              LinkedIn <ArrowUpRight aria-hidden="true" />
             </a>
-            <a href={`mailto:${personalInfo.email}`}>Email ↗</a>
-            <a href="#">Retour en haut ↑</a>
+            <a href={`mailto:${personalInfo.email}`}>
+              Email <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="#">
+              Retour en haut <ArrowUp aria-hidden="true" />
+            </a>
           </div>
         </footer>
       </main>
