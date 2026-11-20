@@ -10,6 +10,6 @@ Images réellement capturées depuis les interfaces des dépôts clonés, sans m
 | SORAVYN | `67a5b49cfe2f893a867343fe58f2086717b91963` | Serveur réel et PostgreSQL 16 isolé. Société « Portfolio — Démonstration locale », aucun agent ni campagne exécuté. Dashboard initial et Campaign Studio. |
 | Specto | `6945e13b9d10d806de2ad27abcbcc29ca178fa9b` | Next.js local, accueil et présentation des tests. Aucun test IA lancé ; les chiffres marketing font partie de la page source. |
 
-Corso Motors : neuf captures fournies par le propriétaire (site vitrine, gamme, connexion, hub, PLM, Git, documentation, Drive et messagerie). Les identifiants personnels dans Git et la messagerie ont été remplacés par des libellés génériques avec ImageGen ; les originaux non anonymisés ne sont pas publiés.
+Corso Motors : neuf captures fournies par le propriétaire (site vitrine, gamme, connexion, hub, PLM, Git, documentation, Drive et messagerie). L’adresse personnelle dans la messagerie a été remplacée par service@corso-motors.com avec ImageGen. Le nom adlane est conservé dans la capture Git, à la demande du propriétaire.
 
 Les légendes visibles sont dans `src/data/projectCaptures.ts`. La galerie utilise un dialogue natif : fermeture avec Échap, navigation avec les flèches gauche/droite et boutons SVG. Images chargées à la demande, avec dimensions explicites.

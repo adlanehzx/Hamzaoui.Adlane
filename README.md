@@ -15,4 +15,4 @@ L’interface respecte `prefers-reduced-motion`. La navigation entre projets et 
 
 ## Captures des projets
 
-Dix-neuf captures dans six galeries, visibles dans la liste de projets. Navigation par miniatures, agrandissement, fermeture avec Échap et flèches clavier dans le dialogue. Les images WebP sont chargées à la demande. La provenance, les révisions et les limites des environnements locaux sont documentées dans [docs/project-captures.md](docs/project-captures.md). Les neuf vues Corso Motors ont été fournies par le propriétaire et les identifiants personnels visibles ont été anonymisés.
+Dix-neuf captures dans six galeries, visibles dans la liste de projets. Navigation par miniatures, agrandissement, fermeture avec Échap et flèches clavier dans le dialogue. Les images WebP sont chargées à la demande. La provenance, les révisions et les limites des environnements locaux sont documentées dans [docs/project-captures.md](docs/project-captures.md). Les neuf vues Corso Motors ont été fournies par le propriétaire et l’adresse personnelle de la messagerie a été anonymisée ; le nom adlane reste visible dans Git.

@@ -33,7 +33,7 @@ export const projectCaptures: Record<string, ProjectCapture[]> = {
     {
       src: "/projects/corso-git.webp",
       label: "Hébergement Git",
-      note: "Capture fournie par le propriétaire du projet. Identifiants personnels anonymisés.",
+      note: "Capture fournie par le propriétaire du projet.",
     },
     {
       src: "/projects/corso-docs.webp",
