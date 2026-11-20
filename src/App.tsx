@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import ProjectGallery from "./components/ProjectGallery";
 import {
   ArrowUpRight,
   ArrowDown,
@@ -367,6 +368,7 @@ function App() {
                 <span className="work-stack">{p.stack}</span>
                 <ArrowUpRight className="work-arrow" aria-hidden="true" />
               </button>
+              <ProjectGallery name={p.name} />
               {active === i && (
                 <div className="work-details">
                   <p>{p.copy}</p>

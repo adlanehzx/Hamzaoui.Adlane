@@ -1,0 +1,67 @@
+export interface ProjectCapture {
+  src: string;
+  label: string;
+  note: string;
+}
+export const projectCaptures: Record<string, ProjectCapture[]> = {
+  "Comp Bike": [
+    {
+      src: "/projects/comp-bike.webp",
+      label: "Interface de Comp Bike — capture originale",
+      note: "Capture conservée depuis la première version du portfolio.",
+    },
+    {
+      src: "/projects/comp-bike-home.webp",
+      label: "Accueil et présentation du produit",
+      note: "Application lancée localement · novembre 2026.",
+    },
+    {
+      src: "/projects/comp-bike-config.webp",
+      label: "Configuration et sélection des composants",
+      note: "Interface locale · données de démonstration présentes dans le dépôt.",
+    },
+  ],
+  HankoTrack: [
+    {
+      src: "/projects/hankotrack-home.webp",
+      label: "Accueil de HankoTrack",
+      note: "Frontend Nuxt lancé localement · vue publique, sans connexion au backend.",
+    },
+    {
+      src: "/projects/hankotrack-features.webp",
+      label: "Fonctionnalités et parcours de découverte",
+      note: "Page publique de l’application · novembre 2026.",
+    },
+  ],
+  Nexus: [
+    {
+      src: "/projects/nexus-login.webp",
+      label: "Connexion à la supervision Nexus",
+      note: "Interface locale · les vues internes nécessitent le backend et une session administrateur.",
+    },
+  ],
+  SORAVYN: [
+    {
+      src: "/projects/soravyn-studio.webp",
+      label: "Campaign Studio — identité et campagnes",
+      note: "Instance locale avec une base de démonstration isolée.",
+    },
+    {
+      src: "/projects/soravyn-dashboard.webp",
+      label: "Command Center — tableau de bord initial",
+      note: "Installation locale vierge · aucun agent ni campagne en cours.",
+    },
+  ],
+  Specto: [
+    {
+      src: "/projects/specto-home.webp",
+      label: "Accueil de Specto",
+      note: "Frontend Next.js lancé localement · page publique.",
+    },
+    {
+      src: "/projects/specto-features.webp",
+      label: "Présentation des types de tests",
+      note: "Vue publique · aucun test IA exécuté pour cette capture.",
+    },
+  ],
+};
