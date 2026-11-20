@@ -4,6 +4,53 @@ export interface ProjectCapture {
   note: string;
 }
 export const projectCaptures: Record<string, ProjectCapture[]> = {
+  "Corso Motors": [
+    {
+      src: "/projects/corso-home.webp",
+      label: "Site vitrine — accueil",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-models.webp",
+      label: "Présentation de la gamme",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-login.webp",
+      label: "Portail unifié — connexion",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-hub.webp",
+      label: "Hub opérationnel et supervision",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-plm.webp",
+      label: "Gestion du cycle de vie produit",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-git.webp",
+      label: "Hébergement Git",
+      note: "Capture fournie par le propriétaire du projet. Identifiants personnels anonymisés.",
+    },
+    {
+      src: "/projects/corso-docs.webp",
+      label: "Documentation interne",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-drive.webp",
+      label: "Espace documentaire et fichiers",
+      note: "Capture fournie par le propriétaire du projet.",
+    },
+    {
+      src: "/projects/corso-mail.webp",
+      label: "Messagerie professionnelle",
+      note: "Capture fournie par le propriétaire du projet. Identifiants personnels anonymisés.",
+    },
+  ],
   "Comp Bike": [
     {
       src: "/projects/comp-bike.webp",
