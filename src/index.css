@@ -322,13 +322,13 @@ h1 em {
 .bike-demo {
   height: 220px;
   position: relative;
-  background: #c6d1ba url("/pics/CompBike.png") center/cover;
+  background: #c6d1ba none center/cover;
   overflow: hidden;
 }
 .bike-image {
   position: absolute;
   inset: 0;
-  background: url("/pics/CompBike.png") center/cover;
+  background: none center/cover;
   filter: grayscale(1) contrast(1.1);
 }
 .bike-line {
@@ -1315,4 +1315,191 @@ nav a:last-child span,
     opacity: 1;
     transform: none;
   }
+}
+.profile-switch {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  gap: 4px;
+  background: #e3e2dc;
+  padding: 4px;
+  margin-top: 24px;
+  border-radius: 4px;
+}
+.profile-switch button {
+  background: none;
+  padding: 12px 18px;
+  min-height: 44px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+.profile-switch button[aria-pressed="true"] {
+  background: #f9f8f4;
+  box-shadow: 0 2px 6px #00000010;
+}
+.project-brief {
+  min-height: 220px;
+  padding: 20px;
+}
+.project-brief > span {
+  font-size: 10px;
+}
+.project-brief h2 {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: 44px;
+  letter-spacing: -1.4px;
+  margin: 8px 0 18px;
+}
+.project-steps {
+  display: flex;
+  gap: 5px;
+}
+.project-steps button {
+  flex: 1;
+  text-align: left;
+  background: #ffffff30;
+  padding: 8px;
+  font-size: 10px;
+  min-height: 58px;
+  border-bottom: 2px solid transparent;
+}
+.project-steps button[aria-pressed="true"] {
+  background: #ffffff70;
+  border-color: #292824;
+}
+.project-steps small {
+  display: block;
+  font-size: 8px;
+  margin-bottom: 6px;
+}
+.project-brief > p {
+  font-size: 12px;
+  margin: 14px 0;
+}
+.project-brief > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  min-height: 30px;
+}
+.cv-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin: 40px 0 60px;
+}
+.skills-grid h3,
+.education h3 {
+  font-size: 12px;
+  font-weight: 500;
+}
+.skills-grid p,
+.education p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #66645e;
+}
+.education {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 24px;
+}
+.education p > span {
+  display: block;
+  font-size: 11px;
+}
+.work-details .case-study > p {
+  max-width: 650px;
+}
+.stage {
+  margin-top: -100px;
+  height: 580px;
+}
+.project-surface {
+  top: 4%;
+}
+.work-name {
+  overflow-wrap: anywhere;
+}
+@media (min-width: 701px) and (max-width: 1024px) {
+  .stage {
+    margin-top: 0;
+    height: 560px;
+  }
+}
+@media (max-width: 700px) {
+  h1 {
+    font-size: clamp(44px, 10.8vw, 72px);
+  }
+  .profile-switch {
+    display: flex;
+    width: 100%;
+    margin-top: 22px;
+  }
+  .profile-switch button {
+    flex: 1;
+    padding: 10px;
+    font-size: 12px;
+  }
+  .stage {
+    margin-top: 10px;
+    height: 390px;
+  }
+  .stage.unfolded {
+    min-height: 520px;
+  }
+  .project-brief {
+    padding: 16px;
+    min-height: 255px;
+  }
+  .project-brief h2 {
+    font-size: 40px;
+  }
+  .project-steps button {
+    font-size: 10px;
+    padding: 7px 5px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .project-brief > a {
+    min-height: 44px;
+  }
+  .project-navigation button {
+    font-size: 11px;
+    gap: 4px;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 18px;
+  }
+  .skills-grid p {
+    font-size: 12px;
+  }
+  .cv-links {
+    gap: 10px;
+  }
+  .work-name {
+    font-size: clamp(30px, 8.6vw, 43px);
+  }
+  .footer-label {
+    line-height: 1.8;
+    display: block;
+    max-width: 280px;
+  }
+}
+.contact-info {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 0 0 24px;
+}
+.contact-info a {
+  display: inline-block;
+  padding: 10px 0;
 }

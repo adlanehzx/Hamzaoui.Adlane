@@ -1,24 +1,14 @@
-# Adlane Hamzaoui — Interfaces & systèmes
+# Adlane Hamzaoui — Full-Stack & IA
 
-Portfolio React / TypeScript / Vite. Une matière argentée se déplie pour révéler trois projets et leurs démonstrations interactives.
-
-## Développement
+Portfolio React / TypeScript / Vite, organisé en deux profils : Développement web et IA & agents. Le contenu est issu des deux CV fournis en novembre 2026. Les PDF originaux sont disponibles sous `public/cv-web.pdf` et `public/cv-ia.pdf`.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-## Vérification
+Validation : `npm run lint`, `npx tsc --noEmit -p tsconfig.app.json`, `npm run build`.
 
-```sh
-npm run lint
-npx tsc --noEmit -p tsconfig.app.json
-npm run build
-```
+Les projets et leurs liens sont définis dans `src/App.tsx`. Les expériences, coordonnées et compétences se trouvent dans `src/data/portfolioData.ts`. Le sélecteur de profil réinitialise le projet ouvert. Chaque projet propose une lecture de son parcours et un lien vers le site ou dépôt mentionné dans le CV. Il ne simule aucune action de ces applications.
 
-L’interface propose un billet réversible, une capture à révéler avec un curseur et une tâche Kanban déplaçable, également utilisable au clavier par activation du bouton. Les gestes restent facultatifs : les projets sont accessibles par boutons. Les animations respectent `prefers-reduced-motion`.
-
-Les démonstrations sont identifiées comme telles et ne sont pas connectées aux applications présentées. Le contact utilise un lien email. Le CV provient de `public/resume.pdf` ; le parcours et les coordonnées proviennent de `src/data/portfolioData.ts` et doivent être tenus à jour.
-
-Contrôles d’interaction exécutés avec Chromium à 1440, 390 et 320 px : ouverture/repli, billet, sélection des projets, curseur, aperçu, déplacement de tâche par activation et absence de débordement horizontal.
+L’interface respecte `prefers-reduced-motion`. La navigation entre projets et leurs étapes fonctionne avec des boutons accessibles au clavier et au toucher.

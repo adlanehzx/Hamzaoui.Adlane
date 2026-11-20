@@ -9,41 +9,90 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-import { experiences, personalInfo } from "./data/portfolioData";
+import {
+  experiences,
+  personalInfo,
+  webSkills,
+  iaSkills,
+} from "./data/portfolioData";
 
-const works = [
-  {
-    name: "Leynai",
-    type: "Événementiel",
-    stack: "React · Node.js · TypeScript",
-    copy: "De la découverte d’un événement à son billet. Une application complète, construite avec la stack MERN.",
-    color: "#e6aa72",
-    label: "01 / LE RENDEZ-VOUS",
-  },
-  {
-    name: "Bike.comp",
-    type: "Comparaison",
-    stack: "Next.js · Django · PostgreSQL",
-    copy: "Comparer des composants de vélo et vérifier leur compatibilité. Un même produit, du modèle de données à l’interface.",
-    color: "#b8c7a5",
-    label: "02 / LE BON ASSEMBLAGE",
-  },
-  {
-    name: "Kanboard",
-    type: "Organisation",
-    stack: "Laravel · MySQL · Blade",
-    copy: "Organiser les projets et les tâches en équipe. Un projet académique réalisé en duo, autour d’un tableau Kanban.",
-    color: "#aebbd0",
-    label: "03 / LE MOUVEMENT",
-  },
-];
+const portfolios = {
+  web: [
+    {
+      name: "Corso Motors",
+      type: "Projet client · Infrastructure",
+      stack: "Docker · Traefik · SSO · VPS",
+      copy: "Écosystème numérique pour un constructeur automobile algérien : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée avec SSO HMAC-SHA256, PLM Cascadia, messagerie SPF / DKIM / DMARC, Nextcloud, Forgejo et BookStack. Durcissement avec Fail2ban et rate limiting.",
+      color: "#e6aa72",
+      label: "01 / ÉCOSYSTÈME SOUVERAIN",
+      url: "https://corso-motors.com",
+      steps: ["Site & CMS", "Identité & services", "Infrastructure privée"],
+    },
+    {
+      name: "Comp Bike",
+      type: "Hackathon Kiro · En équipe",
+      stack: "Next.js · Django REST · PostgreSQL · Redis",
+      copy: "Moteur de compatibilité cross-marques pour identifier les composants de vélo compatibles et comparer les prix du marché. Réalisé en équipe lors du hackathon Kiro, sur DevPost.",
+      color: "#b8c7a5",
+      label: "02 / COMPATIBILITÉ VÉLO",
+      url: "https://github.com/ilyas-ya/comp_bike",
+      steps: ["Composants", "Compatibilité", "Comparaison des prix"],
+    },
+    {
+      name: "HankoTrack",
+      type: "Projet annuel · En équipe",
+      stack: "Nuxt · Express · Prisma · Socket.io",
+      copy: "Plateforme communautaire de suivi d’anime : watchlist, listes et collections, critiques et recommandations personnalisées. Mises à jour en temps réel, tests E2E Playwright et déploiement continu.",
+      color: "#aebbd0",
+      label: "03 / COMMUNAUTÉ & TEMPS RÉEL",
+      url: "https://github.com/adlanehzx/Projet-Annuel",
+      steps: [
+        "Watchlist & collections",
+        "Critiques & recommandations",
+        "Temps réel",
+      ],
+    },
+  ],
+  ia: [
+    {
+      name: "Nexus",
+      type: "Assistant IA · Multi-appareils",
+      stack: "TypeScript · Expo · Tool calling · pgvector",
+      copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité, moteur de missions durable, mémoire vectorielle et voix en local.",
+      color: "#b8c7a5",
+      label: "01 / DE L’INTENTION À L’ACTION",
+      url: "https://github.com/adlanehzx/Nexus",
+      steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
+    },
+    {
+      name: "SORAVYN",
+      type: "Marketing · Systèmes multi-agents",
+      stack: "TypeScript · Multi-agents · Vidéo · Voix",
+      copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
+      color: "#e6aa72",
+      label: "02 / CAMPAGNES PILOTÉES PAR AGENTS",
+      url: "https://github.com/adlanehzx/soravyn",
+      steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
+    },
+    {
+      name: "Specto",
+      type: "Qualité · Tests générés par IA",
+      stack: "Playwright · BullMQ · CI/CD · IA générative",
+      copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
+      color: "#aebbd0",
+      label: "03 / DU LANGAGE NATUREL AUX TESTS",
+      url: "https://github.com/adlanehzx/specto",
+      steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
+    },
+  ],
+};
 
 function App() {
+  const [profile, setProfile] = useState<"web" | "ia">("web");
+  const works = portfolios[profile];
+  const [step, setStep] = useState(0);
   const [active, setActive] = useState<number | null>(null);
   const [visited, setVisited] = useState<number[]>([]);
-  const [task, setTask] = useState(0);
-  const [compare, setCompare] = useState(50);
-  const [ticket, setTicket] = useState(false);
   const [detail, setDetail] = useState(false);
   const stage = useRef<HTMLDivElement>(null);
   const start = useRef<number | null>(null);
@@ -51,6 +100,7 @@ function App() {
   const work = active === null ? null : works[active];
   function select(index: number) {
     setActive(index);
+    setStep(0);
     setDetail(false);
     setVisited((v) => (v.includes(index) ? v : [...v, index]));
   }
@@ -79,14 +129,42 @@ function App() {
       <main>
         <section className="atelier" aria-labelledby="title">
           <div className="edition">
-            <span>Développement web & mobile</span>
+            <span>
+              {profile === "web"
+                ? "Développeur Full-Stack"
+                : "Développeur IA & Full-Stack"}
+            </span>
             <span>Paris, FR — Portfolio / 2026</span>
           </div>
           <h1 id="title">
-            Tout commence
+            Des idées aux
             <br />
-            par une <em>forme.</em>
+            <em>{profile === "web" ? "applications." : "agents IA."}</em>
           </h1>
+          <div className="profile-switch" aria-label="Choisir un profil">
+            <button
+              aria-pressed={profile === "web"}
+              onClick={() => {
+                setProfile("web");
+                setActive(null);
+                setVisited([]);
+                setDetail(false);
+              }}
+            >
+              Développement web
+            </button>
+            <button
+              aria-pressed={profile === "ia"}
+              onClick={() => {
+                setProfile("ia");
+                setActive(null);
+                setVisited([]);
+                setDetail(false);
+              }}
+            >
+              IA & agents
+            </button>
+          </div>
           <div
             className={`stage ${work ? "unfolded" : ""}`}
             ref={stage}
@@ -113,7 +191,7 @@ function App() {
             <div className="coordinates" aria-hidden="true">
               AH—001
               <br />
-              MATIÈRE NUMÉRIQUE
+              ADLANE HAMZAOUI
               <br />
               {visited.length.toString().padStart(2, "0")} EMPREINTE
               {visited.length > 1 ? "S" : ""}
@@ -122,9 +200,7 @@ function App() {
               <button
                 className="metal"
                 aria-label={
-                  work
-                    ? "Replier le projet"
-                    : "Déplier la matière et découvrir Leynai"
+                  work ? "Replier le projet" : "Découvrir le premier projet"
                 }
                 onClick={() => {
                   if (swiped.current) {
@@ -170,80 +246,35 @@ function App() {
                     <X aria-hidden="true" />
                   </button>
                 </div>
-                {active === 0 && (
-                  <button
-                    className={`ticket ${ticket ? "turned" : ""}`}
-                    onClick={() => setTicket(!ticket)}
-                    aria-label="Retourner le billet de démonstration"
+                <div
+                  className="project-brief"
+                  style={{ background: work.color }}
+                >
+                  <span>{work.type}</span>
+                  <h2>{work.name}</h2>
+                  <div
+                    className="project-steps"
+                    aria-label="Parcours du projet"
                   >
-                    <span>leynai</span>
-                    <strong>
-                      {ticket ? "Vous y êtes." : "On se retrouve\nce soir."}
-                    </strong>
-                    <span className="ticket-bottom">
-                      {ticket
-                        ? "ENTRÉE / 001 — DÉMONSTRATION"
-                        : "PARIS · 21:00 · ADMET UNE PERSONNE"}
-                      <ArrowUpRight aria-hidden="true" />
-                    </span>
-                    <span className="barcode" aria-hidden="true" />
-                  </button>
-                )}
-                {active === 1 && (
-                  <div className="bike-demo">
-                    <div
-                      className="bike-image"
-                      style={{ clipPath: `inset(0 ${100 - compare}% 0 0)` }}
-                    />
-                    <div
-                      className="bike-line"
-                      style={{ left: `${compare}%` }}
-                    />
-                    <div className="bike-captions">
-                      <span>LE PROJET</span>
-                      <span>LE DÉTAIL</span>
-                    </div>
-                    <input
-                      aria-label="Explorer la capture Bike.comp"
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={compare}
-                      onChange={(e) => setCompare(Number(e.target.value))}
-                    />
-                  </div>
-                )}
-                {active === 2 && (
-                  <div className="kanban">
-                    {["À faire", "En cours", "Terminé"].map((label, i) => (
-                      <div
+                    {work.steps.map((label, index) => (
+                      <button
                         key={label}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={() => setTask(i)}
+                        aria-pressed={step === index}
+                        onClick={() => setStep(index)}
                       >
-                        <span>
-                          {label} <small>{task === i ? "01" : "00"}</small>
-                        </span>
-                        {task === i && (
-                          <button
-                            draggable
-                            onDragStart={(e) =>
-                              e.dataTransfer.setData("text/plain", "task")
-                            }
-                            onClick={() => setTask((task + 1) % 3)}
-                          >
-                            <i />
-                            Dessiner la suite
-                            <small>Interface · cliquer ou déplacer</small>
-                            <span>
-                              AH <ArrowRight aria-hidden="true" />
-                            </span>
-                          </button>
-                        )}
-                      </div>
+                        <small>0{index + 1}</small>
+                        {label}
+                      </button>
                     ))}
                   </div>
-                )}
+                  <p aria-live="polite">{work.steps[step]}</p>
+                  <a href={work.url} target="_blank" rel="noreferrer">
+                    {work.name === "Corso Motors"
+                      ? "Visiter le site"
+                      : "Explorer le dépôt"}{" "}
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                </div>
                 <div className="surface-paging">
                   <button
                     aria-label="Projet précédent"
@@ -262,14 +293,8 @@ function App() {
                   </button>
                 </div>
                 <div className="surface-caption">
-                  <span>
-                    {active === 0
-                      ? "Touchez le billet pour le retourner"
-                      : active === 1
-                        ? "Faites glisser pour explorer"
-                        : "Déplacez la tâche ou touchez-la"}
-                  </span>
-                  <span>Démo d’interaction</span>
+                  <span>{work.stack}</span>
+                  <span>Projet du CV {profile === "web" ? "Web" : "IA"}</span>
                 </div>
               </div>
             )}
@@ -287,15 +312,14 @@ function App() {
             </div>
             <span className="stage-note">
               {work
-                ? "Une idée. Puis une interface."
-                : "Approchez. Touchez. Dépliez."}
+                ? "Architecture, outils, réalisation."
+                : "Choisissez un projet pour l’explorer."}
             </span>
           </div>
           <div className="intro-bottom">
             <p>
-              Je suis Adlane. Je donne forme à des applications,
-              <br />
-              de l’interface à ce qui la fait fonctionner.
+              Adlane Hamzaoui · Paris · Alternance
+              <br />1 semaine école / 3 semaines entreprise.
             </p>
             <a href="#projets">
               Explorer les travaux{" "}
@@ -307,7 +331,10 @@ function App() {
         </section>
         <section className="works" id="projets" aria-labelledby="works-title">
           <div className="section-label">
-            <h2 id="works-title">Pièces choisies</h2>
+            <h2 id="works-title">
+              Projets{" "}
+              {profile === "web" ? "web & infrastructure" : "IA & agents"}
+            </h2>
             <span>01 — 03</span>
           </div>
           {works.map((p, i) => (
@@ -347,7 +374,7 @@ function App() {
                     onClick={() => setDetail(!detail)}
                     aria-expanded={detail}
                   >
-                    {detail ? "Fermer" : "Notes & aperçu"}{" "}
+                    {detail ? "Fermer" : "Détails du projet"}{" "}
                     {detail ? (
                       <Minus aria-hidden="true" />
                     ) : (
@@ -356,33 +383,14 @@ function App() {
                   </button>
                   {detail && (
                     <div className="case-study">
-                      <p>
-                        {p.stack}
-                        <br />
-                        Projet personnel / académique. Les interactions
-                        ci-dessus sont des démonstrations conçues pour ce
-                        portfolio.
-                      </p>
-                      {i > 0 ? (
-                        <img
-                          src={
-                            i === 1
-                              ? "/pics/CompBike.png"
-                              : "/pics/Kanboard.png"
-                          }
-                          alt={`Capture de l’interface ${p.name}`}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <a
-                          href="https://github.com/adlanehzx/Leyani-event"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Explorer le code de Leynai{" "}
-                          <ArrowUpRight aria-hidden="true" />
-                        </a>
-                      )}
+                      <p>{p.stack}</p>
+                      <p>{p.copy}</p>
+                      <a href={p.url} target="_blank" rel="noreferrer">
+                        {p.name === "Corso Motors"
+                          ? "Visiter le site"
+                          : "Explorer le dépôt"}{" "}
+                        <ArrowUpRight aria-hidden="true" />
+                      </a>
                     </div>
                   )}
                 </div>
@@ -392,34 +400,45 @@ function App() {
         </section>
         <section className="about" id="parcours">
           <div className="section-label">
-            <h2>Derrière la matière</h2>
+            <h2>Parcours & compétences</h2>
             <span>ADLANE HAMZAOUI</span>
           </div>
           <div className="about-grid">
             <p className="statement">
-              Le détail à l’écran.
+              Full-Stack.
               <br />
-              <em>La logique derrière.</em>
+              <em>IA & automatisation.</em>
             </p>
             <div>
               <p>
-                Développeur full stack à Paris, en Master Ingénierie du Web à
-                l’ESGI. Je travaille avec React, React Native et Node.js, et
-                j’explore aussi Laravel et Django selon les projets.
+                Développeur Full-Stack en dernière année de Mastère Ingénierie
+                de la Blockchain à l’ESGI, en alternance.{" "}
+                {profile === "web"
+                  ? "Je conçois des applications web et mobiles de bout en bout : interfaces React / Next.js, APIs Node.js / TypeScript, PostgreSQL, Docker et CI/CD."
+                  : "Je conçois des systèmes multi-agents, des outils d’automatisation et des APIs TypeScript / Node.js, de l’architecture jusqu’au déploiement."}
               </p>
               <p>
-                J’aime construire une application dans son ensemble : ses
-                gestes, ses données et les outils qui permettent de la livrer.
+                {profile === "web"
+                  ? "Architecture logicielle, qualité, tests E2E et automatisation."
+                  : "Agents autonomes, architecture logicielle et blockchain. Expérience web et mobile avec React, Next.js et React Native."}
               </p>
-              <a
-                className="text-link"
-                href={personalInfo.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ouvrir mon CV <ArrowUpRight aria-hidden="true" />
-              </a>
+              <div className="cv-links">
+                <a className="text-link" href="/cv-web.pdf" download>
+                  CV Développement web <ArrowDown aria-hidden="true" />
+                </a>
+                <a className="text-link" href="/cv-ia.pdf" download>
+                  CV IA & Full-Stack <ArrowDown aria-hidden="true" />
+                </a>
+              </div>
             </div>
+          </div>
+          <div className="skills-grid">
+            {(profile === "web" ? webSkills : iaSkills).map(([name, value]) => (
+              <div key={name}>
+                <h3>{name}</h3>
+                <p>{value}</p>
+              </div>
+            ))}
           </div>
           <div className="timeline">
             {experiences.map((e) => (
@@ -428,20 +447,46 @@ function App() {
                 <h3>{e.company}</h3>
                 <p>
                   {e.role}
-                  <small>{e.description[0]}</small>
+                  <small>{e.description.join(" · ")}</small>
                 </p>
               </article>
             ))}
           </div>
+          <div className="education">
+            <h3>Formation</h3>
+            <p>
+              Mastère en Ingénierie de la Blockchain{" "}
+              <span>ESGI Paris · Septembre 2025 — Août 2027</span>
+            </p>
+            <p>
+              Bachelor en Ingénierie du Web{" "}
+              <span>ESGI Paris · Septembre 2024 — Août 2025</span>
+            </p>
+            <p>
+              Français & arabe : langues maternelles · Anglais : professionnel
+              technique
+            </p>
+            <p>
+              Travail en équipe agile (Scrum), code review, documentation
+              technique, résolution de problèmes et développement orienté
+              produit.
+            </p>
+          </div>
         </section>
         <footer id="contact">
-          <span className="footer-label">LA SUITE SE CONSTRUIT À DEUX.</span>
+          <span className="footer-label">
+            ALTERNANCE · 1 SEMAINE ÉCOLE / 3 SEMAINES ENTREPRISE.
+          </span>
           <a className="contact" href={`mailto:${personalInfo.email}`}>
-            On en parle
+            Échangeons
             <span>
               <ArrowUpRight aria-hidden="true" />
             </span>
           </a>
+          <p className="contact-info">
+            Paris, France · <a href="tel:+33667748988">+33 6 67 74 89 88</a> ·
+            Permis B
+          </p>
           <div className="footer-bottom">
             <span>Adlane Hamzaoui © {new Date().getFullYear()}</span>
             <a
