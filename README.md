@@ -9,7 +9,7 @@ npm run dev
 
 Validation : `npm run lint`, `npx tsc --noEmit -p tsconfig.app.json`, `npm run build`.
 
-Les projets, leurs domaines, rôles et liens sont définis dans `src/App.tsx`. Les textes de l’interface sont dans `src/i18n.ts`, les projets dans `src/data/projects.ts`, les expériences et compétences dans `src/data/portfolioData.ts`, en français et en anglais. Chaque projet propose une lecture de son parcours et un lien vers le site ou le dépôt du projet. Il ne simule aucune action de ces applications.
+Les textes de l’interface sont dans `src/i18n.ts`, les projets dans `src/data/projects.ts`, les expériences et compétences dans `src/data/portfolioData.ts`, en français et en anglais. Chaque projet propose une lecture de son parcours et un lien vers le site ou le dépôt du projet. Il ne simule aucune action de ces applications.
 
 L’interface respecte `prefers-reduced-motion`. La navigation entre projets et leurs étapes fonctionne avec des boutons accessibles au clavier et au toucher.
 
