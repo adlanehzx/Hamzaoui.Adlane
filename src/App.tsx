@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import ProjectGallery from "./components/ProjectGallery";
 import {
   ArrowUpRight,
@@ -12,8 +12,32 @@ import {
 } from "lucide-react";
 import { experiences, personalInfo, skills } from "./data/portfolioData";
 
+type Category = "client" | "hackathon" | "perso";
+const categories: Record<
+  Category,
+  { title: string; short: string; intro: string }
+> = {
+  client: {
+    title: "Projet client",
+    short: "Client",
+    intro: "Conçu et livré pour un client, du cadrage à la mise en production.",
+  },
+  hackathon: {
+    title: "Hackathons",
+    short: "Hackathons",
+    intro: "Des produits construits en équipe, en temps limité.",
+  },
+  perso: {
+    title: "Projets personnels",
+    short: "Perso",
+    intro:
+      "Des projets menés de bout en bout, pour apprendre et pour mon propre usage.",
+  },
+};
+
 const projects: {
   name: string;
+  category: Category;
   type: string;
   role: string;
   stack: string;
@@ -25,7 +49,8 @@ const projects: {
 }[] = [
   {
     name: "Corso Motors",
-    type: "Projet client",
+    category: "client",
+    type: "Constructeur automobile",
     role: "Chef de projet & développeur",
     stack: "Docker · Traefik · SSO · VPS",
     copy: "Écosystème numérique pour un constructeur automobile : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée sur VPS avec SSO, PLM, Git, wiki, drive et messagerie. Projet mené de bout en bout, du cadrage des besoins à la mise en production.",
@@ -39,73 +64,8 @@ const projects: {
     ],
   },
   {
-    name: "Bastion",
-    type: "Projet personnel · DeFi",
-    role: "Concepteur & développeur",
-    stack: "Solidity · Foundry · Rust · Chainlink",
-    copy: "Coffre DeFi non custodial sur BNB Chain qui exécute automatiquement des ordres DCA, limites, stop-loss et take-profit. Les prix viennent de Chainlink ; un keeper en Rust déclenche les ordres sans pouvoir retirer les fonds. Tests unitaires, fuzzing et invariants avec Foundry.",
-    color: "#d9c27a",
-    label: "ORDRES AUTOMATISÉS ON-CHAIN",
-    url: "https://github.com/adlanehzx/bastion",
-    steps: ["Smart contract", "Keeper Rust", "Fuzzing & invariants"],
-  },
-  {
-    name: "RugRadar",
-    type: "Projet personnel · Sécurité",
-    role: "Concepteur & développeur",
-    stack: "Rust · alloy · Solidity · SQLite",
-    copy: "Scanner de risque en temps réel des nouveaux tokens listés sur PancakeSwap. Chaque paire est analysée en quelques secondes : honeypot simulé en un seul eth_call, taxes cachées, liquidité et fonctions dangereuses du bytecode. Score sur 100 et alertes Telegram.",
-    color: "#c9a9a0",
-    label: "ANALYSE DE TOKENS EN TEMPS RÉEL",
-    url: "https://github.com/adlanehzx/rugradar",
-    steps: ["Détection des paires", "Simulation & bytecode", "Score & alertes"],
-  },
-  {
-    name: "Nexus",
-    type: "Projet personnel · Assistant IA",
-    role: "Concepteur & développeur",
-    stack: "TypeScript · Expo · Tool calling · pgvector",
-    copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité de chaque action.",
-    color: "#b8c7a5",
-    label: "DE L’INTENTION À L’ACTION",
-    url: "https://github.com/adlanehzx/Nexus",
-    steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
-  },
-  {
-    name: "SORAVYN",
-    type: "Projet personnel · Marketing",
-    role: "Concepteur & développeur",
-    stack: "TypeScript · Multi-agents · Vidéo · Voix",
-    copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
-    color: "#e3b48c",
-    label: "CAMPAGNES PILOTÉES PAR AGENTS",
-    url: "https://github.com/adlanehzx/soravyn",
-    steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
-  },
-  {
-    name: "Specto",
-    type: "Projet personnel · Qualité",
-    role: "Concepteur & développeur",
-    stack: "Playwright · BullMQ · CI/CD · IA générative",
-    copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
-    color: "#aebbd0",
-    label: "DU LANGAGE NATUREL AUX TESTS",
-    url: "https://github.com/adlanehzx/specto",
-    steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
-  },
-  {
-    name: "HankoTrack",
-    type: "Projet annuel ESGI · En équipe",
-    role: "Scrum Master & développeur",
-    stack: "Nuxt · Express · Prisma · Socket.io",
-    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
-    color: "#b9b2cf",
-    label: "COMMUNAUTÉ & TEMPS RÉEL",
-    url: "https://github.com/adlanehzx/Projet-Annuel",
-    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
-  },
-  {
     name: "Comp Bike",
+    category: "hackathon",
     type: "Hackathon Kiro · En équipe",
     role: "Chef de projet & développeur",
     stack: "Next.js · Django REST · PostgreSQL · Redis",
@@ -117,6 +77,7 @@ const projects: {
   },
   {
     name: "Hackathon Michelin",
+    category: "hackathon",
     type: "Hackathon Michelin · En équipe",
     role: "Développeur full-stack",
     stack: "React Native · Expo · Express · Supabase",
@@ -130,12 +91,87 @@ const projects: {
       "Badges & niveaux",
     ],
   },
+  {
+    name: "Bastion",
+    category: "perso",
+    type: "Finance décentralisée",
+    role: "Concepteur & développeur",
+    stack: "Solidity · Foundry · Rust · Chainlink",
+    copy: "Coffre DeFi non custodial sur BNB Chain qui exécute automatiquement des ordres DCA, limites, stop-loss et take-profit. Les prix viennent de Chainlink ; un keeper en Rust déclenche les ordres sans pouvoir retirer les fonds. Tests unitaires, fuzzing et invariants avec Foundry.",
+    color: "#d9c27a",
+    label: "ORDRES AUTOMATISÉS ON-CHAIN",
+    url: "https://github.com/adlanehzx/bastion",
+    steps: ["Smart contract", "Keeper Rust", "Fuzzing & invariants"],
+  },
+  {
+    name: "RugRadar",
+    category: "perso",
+    type: "Sécurité blockchain",
+    role: "Concepteur & développeur",
+    stack: "Rust · alloy · Solidity · SQLite",
+    copy: "Scanner de risque en temps réel des nouveaux tokens listés sur PancakeSwap. Chaque paire est analysée en quelques secondes : honeypot simulé en un seul eth_call, taxes cachées, liquidité et fonctions dangereuses du bytecode. Score sur 100 et alertes Telegram.",
+    color: "#c9a9a0",
+    label: "ANALYSE DE TOKENS EN TEMPS RÉEL",
+    url: "https://github.com/adlanehzx/rugradar",
+    steps: ["Détection des paires", "Simulation & bytecode", "Score & alertes"],
+  },
+  {
+    name: "Nexus",
+    category: "perso",
+    type: "Assistant IA",
+    role: "Concepteur & développeur",
+    stack: "TypeScript · Expo · Tool calling · pgvector",
+    copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité de chaque action.",
+    color: "#b8c7a5",
+    label: "DE L’INTENTION À L’ACTION",
+    url: "https://github.com/adlanehzx/Nexus",
+    steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
+  },
+  {
+    name: "SORAVYN",
+    category: "perso",
+    type: "Agence marketing IA",
+    role: "Concepteur & développeur",
+    stack: "TypeScript · Multi-agents · Vidéo · Voix",
+    copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
+    color: "#e3b48c",
+    label: "CAMPAGNES PILOTÉES PAR AGENTS",
+    url: "https://github.com/adlanehzx/soravyn",
+    steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
+  },
+  {
+    name: "Specto",
+    category: "perso",
+    type: "Tests générés par IA",
+    role: "Concepteur & développeur",
+    stack: "Playwright · BullMQ · CI/CD · IA générative",
+    copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
+    color: "#aebbd0",
+    label: "DU LANGAGE NATUREL AUX TESTS",
+    url: "https://github.com/adlanehzx/specto",
+    steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
+  },
+  {
+    name: "HankoTrack",
+    category: "perso",
+    type: "Projet annuel ESGI · En équipe",
+    role: "Scrum Master & développeur",
+    stack: "Nuxt · Express · Prisma · Socket.io",
+    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
+    color: "#b9b2cf",
+    label: "COMMUNAUTÉ & TEMPS RÉEL",
+    url: "https://github.com/adlanehzx/Projet-Annuel",
+    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
+  },
 ];
 
 function App() {
   const works = projects;
   const count = works.length;
   const pad = (n: number) => n.toString().padStart(2, "0");
+  const order: Category[] = ["client", "hackathon", "perso"];
+  const startsGroup = (i: number) =>
+    i === 0 || works[i - 1].category !== works[i].category;
   const [step, setStep] = useState(0);
   const [active, setActive] = useState<number | null>(null);
   const [visited, setVisited] = useState<number[]>([]);
@@ -323,14 +359,20 @@ function App() {
             )}
             <div className="project-navigation" aria-label="Choisir un projet">
               {works.map((project, index) => (
-                <button
-                  key={project.name}
-                  aria-pressed={active === index}
-                  onClick={() => select(index)}
-                >
-                  <span>{pad(index + 1)}</span>
-                  {project.name}
-                </button>
+                <Fragment key={project.name}>
+                  {startsGroup(index) && (
+                    <small className="nav-group">
+                      {categories[project.category].short}
+                    </small>
+                  )}
+                  <button
+                    aria-pressed={active === index}
+                    onClick={() => select(index)}
+                  >
+                    <span>{pad(index + 1)}</span>
+                    {project.name}
+                  </button>
+                </Fragment>
               ))}
             </div>
             <span className="stage-note">
@@ -354,71 +396,86 @@ function App() {
         </section>
         <section className="works" id="projets" aria-labelledby="works-title">
           <div className="section-label">
-            <h2 id="works-title">Projets sélectionnés</h2>
-            <span>01 — {pad(count)}</span>
+            <h2 id="works-title">Travaux</h2>
+            <span>{pad(count)} projets</span>
           </div>
           {works.map((p, i) => (
-            <div
-              className={`work-row ${active === i ? "selected" : ""}`}
-              key={p.name}
-            >
-              <button
-                className="work-select"
-                aria-expanded={active === i}
-                onClick={() => {
-                  select(i);
-                  document.querySelector(".stage")?.scrollIntoView({
-                    behavior: matchMedia("(prefers-reduced-motion: reduce)")
-                      .matches
-                      ? "instant"
-                      : "smooth",
-                    block: "center",
-                  });
-                }}
-              >
-                <span className="work-number">
-                  {pad(i + 1)}
-                  <i className={visited.includes(i) ? "seen" : ""} />
-                </span>
-                <span className="work-name">
-                  {p.name}
-                  <small>
-                    {p.type} · {p.role}
-                  </small>
-                </span>
-                <span className="work-stack">{p.stack}</span>
-                <ArrowUpRight className="work-arrow" aria-hidden="true" />
-              </button>
-              <ProjectGallery name={p.name} />
-              {active === i && (
-                <div className="work-details">
-                  <p>{p.copy}</p>
-                  <button
-                    onClick={() => setDetail(!detail)}
-                    aria-expanded={detail}
-                  >
-                    {detail ? "Fermer" : "Détails du projet"}{" "}
-                    {detail ? (
-                      <Minus aria-hidden="true" />
-                    ) : (
-                      <Plus aria-hidden="true" />
-                    )}
-                  </button>
-                  {detail && (
-                    <div className="case-study">
-                      <p>{p.stack}</p>
-                      <p>{p.copy}</p>
-                      <a href={p.url} target="_blank" rel="noreferrer">
-                        {p.name === "Corso Motors"
-                          ? "Visiter le site"
-                          : "Explorer le dépôt"}{" "}
-                        <ArrowUpRight aria-hidden="true" />
-                      </a>
-                    </div>
-                  )}
+            <Fragment key={p.name}>
+              {startsGroup(i) && (
+                <div className="group-head">
+                  <span className="group-index">
+                    {pad(order.indexOf(p.category) + 1)}
+                  </span>
+                  <h3>{categories[p.category].title}</h3>
+                  <p>{categories[p.category].intro}</p>
+                  <span className="group-count">
+                    {pad(works.filter((w) => w.category === p.category).length)}{" "}
+                    projet
+                    {works.filter((w) => w.category === p.category).length > 1
+                      ? "s"
+                      : ""}
+                  </span>
                 </div>
               )}
-            </div>
+              <div className={`work-row ${active === i ? "selected" : ""}`}>
+                <button
+                  className="work-select"
+                  aria-expanded={active === i}
+                  onClick={() => {
+                    select(i);
+                    document.querySelector(".stage")?.scrollIntoView({
+                      behavior: matchMedia("(prefers-reduced-motion: reduce)")
+                        .matches
+                        ? "instant"
+                        : "smooth",
+                      block: "center",
+                    });
+                  }}
+                >
+                  <span className="work-number">
+                    {pad(i + 1)}
+                    <i className={visited.includes(i) ? "seen" : ""} />
+                  </span>
+                  <span className="work-name">
+                    {p.name}
+                    <small>
+                      {p.type} · {p.role}
+                    </small>
+                  </span>
+                  <span className="work-stack">{p.stack}</span>
+                  <ArrowUpRight className="work-arrow" aria-hidden="true" />
+                </button>
+                <ProjectGallery name={p.name} />
+                {active === i && (
+                  <div className="work-details">
+                    <p>{p.copy}</p>
+                    <button
+                      onClick={() => setDetail(!detail)}
+                      aria-expanded={detail}
+                    >
+                      {detail ? "Fermer" : "Détails du projet"}{" "}
+                      {detail ? (
+                        <Minus aria-hidden="true" />
+                      ) : (
+                        <Plus aria-hidden="true" />
+                      )}
+                    </button>
+                    {detail && (
+                      <div className="case-study">
+                        <p>{p.stack}</p>
+                        <p>{p.copy}</p>
+                        <a href={p.url} target="_blank" rel="noreferrer">
+                          {p.name === "Corso Motors"
+                            ? "Visiter le site"
+                            : "Explorer le dépôt"}{" "}
+                          <ArrowUpRight aria-hidden="true" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </Fragment>
           ))}
         </section>
         <section className="about" id="parcours">
@@ -469,10 +526,6 @@ function App() {
             <p>
               Mastère en Ingénierie de la Blockchain{" "}
               <span>ESGI Paris · Septembre 2025 — Août 2027</span>
-            </p>
-            <p>
-              Bachelor en Ingénierie du Web{" "}
-              <span>ESGI Paris · Septembre 2024 — Août 2025</span>
             </p>
             <p>
               Français : langue maternelle · Anglais : professionnel technique

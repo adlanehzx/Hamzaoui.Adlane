@@ -1,6 +1,6 @@
 # Adlane Hamzaoui — Ingénieur logiciel & projets IT
 
-Portfolio React / TypeScript / Vite. Neuf projets sélectionnés, chacun présenté avec le rôle tenu.
+Portfolio React / TypeScript / Vite. Neuf projets regroupés en trois parties (projet client, hackathons, projets personnels), chacun présenté avec le rôle tenu.
 
 ```sh
 npm ci
