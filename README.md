@@ -1,6 +1,6 @@
 # Adlane Hamzaoui — Ingénieur logiciel & projets IT
 
-Portfolio React / TypeScript / Vite. Neuf projets sélectionnés, chacun étiqueté par domaine (Web, Blockchain, IA, Pilotage) et filtrables depuis l’accueil.
+Portfolio React / TypeScript / Vite. Neuf projets sélectionnés, chacun présenté avec le rôle tenu.
 
 ```sh
 npm ci
@@ -9,7 +9,7 @@ npm run dev
 
 Validation : `npm run lint`, `npx tsc --noEmit -p tsconfig.app.json`, `npm run build`.
 
-Les projets, leurs domaines, rôles et liens sont définis dans `src/App.tsx`. Les expériences, coordonnées et compétences se trouvent dans `src/data/portfolioData.ts`. Changer de filtre réinitialise le projet ouvert. Chaque projet propose une lecture de son parcours et un lien vers le site ou le dépôt du projet. Il ne simule aucune action de ces applications.
+Les projets, leurs domaines, rôles et liens sont définis dans `src/App.tsx`. Les expériences, coordonnées et compétences se trouvent dans `src/data/portfolioData.ts`. Chaque projet propose une lecture de son parcours et un lien vers le site ou le dépôt du projet. Il ne simule aucune action de ces applications.
 
 L’interface respecte `prefers-reduced-motion`. La navigation entre projets et leurs étapes fonctionne avec des boutons accessibles au clavier et au toucher.
 

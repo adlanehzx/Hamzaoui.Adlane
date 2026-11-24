@@ -12,14 +12,10 @@ import {
 } from "lucide-react";
 import { experiences, personalInfo, skills } from "./data/portfolioData";
 
-type Domain = "Web" | "Blockchain" | "IA" | "Pilotage";
-const domains: Domain[] = ["Web", "Blockchain", "IA", "Pilotage"];
-
 const projects: {
   name: string;
   type: string;
   role: string;
-  domains: Domain[];
   stack: string;
   copy: string;
   color: string;
@@ -31,7 +27,6 @@ const projects: {
     name: "Corso Motors",
     type: "Projet client",
     role: "Chef de projet & développeur",
-    domains: ["Web", "Pilotage"],
     stack: "Docker · Traefik · SSO · VPS",
     copy: "Écosystème numérique pour un constructeur automobile : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée sur VPS avec SSO, PLM, Git, wiki, drive et messagerie. Projet mené de bout en bout, du cadrage des besoins à la mise en production.",
     color: "#e6aa72",
@@ -47,7 +42,6 @@ const projects: {
     name: "Bastion",
     type: "Projet personnel · DeFi",
     role: "Concepteur & développeur",
-    domains: ["Blockchain"],
     stack: "Solidity · Foundry · Rust · Chainlink",
     copy: "Coffre DeFi non custodial sur BNB Chain qui exécute automatiquement des ordres DCA, limites, stop-loss et take-profit. Les prix viennent de Chainlink ; un keeper en Rust déclenche les ordres sans pouvoir retirer les fonds. Tests unitaires, fuzzing et invariants avec Foundry.",
     color: "#d9c27a",
@@ -59,7 +53,6 @@ const projects: {
     name: "RugRadar",
     type: "Projet personnel · Sécurité",
     role: "Concepteur & développeur",
-    domains: ["Blockchain"],
     stack: "Rust · alloy · Solidity · SQLite",
     copy: "Scanner de risque en temps réel des nouveaux tokens listés sur PancakeSwap. Chaque paire est analysée en quelques secondes : honeypot simulé en un seul eth_call, taxes cachées, liquidité et fonctions dangereuses du bytecode. Score sur 100 et alertes Telegram.",
     color: "#c9a9a0",
@@ -71,7 +64,6 @@ const projects: {
     name: "Nexus",
     type: "Projet personnel · Assistant IA",
     role: "Concepteur & développeur",
-    domains: ["IA"],
     stack: "TypeScript · Expo · Tool calling · pgvector",
     copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité de chaque action.",
     color: "#b8c7a5",
@@ -83,7 +75,6 @@ const projects: {
     name: "SORAVYN",
     type: "Projet personnel · Marketing",
     role: "Concepteur & développeur",
-    domains: ["IA"],
     stack: "TypeScript · Multi-agents · Vidéo · Voix",
     copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
     color: "#e3b48c",
@@ -95,7 +86,6 @@ const projects: {
     name: "Specto",
     type: "Projet personnel · Qualité",
     role: "Concepteur & développeur",
-    domains: ["IA", "Web"],
     stack: "Playwright · BullMQ · CI/CD · IA générative",
     copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
     color: "#aebbd0",
@@ -107,7 +97,6 @@ const projects: {
     name: "HankoTrack",
     type: "Projet annuel ESGI · En équipe",
     role: "Scrum Master & développeur",
-    domains: ["Web", "Pilotage"],
     stack: "Nuxt · Express · Prisma · Socket.io",
     copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
     color: "#b9b2cf",
@@ -119,7 +108,6 @@ const projects: {
     name: "Comp Bike",
     type: "Hackathon Kiro · En équipe",
     role: "Chef de projet & développeur",
-    domains: ["Web", "Pilotage"],
     stack: "Next.js · Django REST · PostgreSQL · Redis",
     copy: "Moteur de compatibilité cross-marques pour identifier les composants de vélo compatibles et comparer les prix du marché. Réalisé en équipe lors du hackathon Kiro : cadrage d’un périmètre minimal, répartition des tâches et livraison dans les délais.",
     color: "#b8c7a5",
@@ -131,7 +119,6 @@ const projects: {
     name: "Hackathon Michelin",
     type: "Hackathon Michelin · En équipe",
     role: "Développeur full-stack",
-    domains: ["Web"],
     stack: "React Native · Expo · Express · Supabase",
     copy: "Application mobile autour du Guide Michelin : création de parcours gastronomiques personnalisés (distinctions, cuisine, budget, distance), restaurants et hôtels, badges et niveaux. Authentification JWT, réinitialisation du mot de passe par email et version web.",
     color: "#dfa49b",
@@ -146,10 +133,7 @@ const projects: {
 ];
 
 function App() {
-  const [filter, setFilter] = useState<Domain | null>(null);
-  const works = filter
-    ? projects.filter((p) => p.domains.includes(filter))
-    : projects;
+  const works = projects;
   const count = works.length;
   const pad = (n: number) => n.toString().padStart(2, "0");
   const [step, setStep] = useState(0);
@@ -199,26 +183,6 @@ function App() {
             <br />
             <em>produits.</em>
           </h1>
-          <div
-            className="profile-switch"
-            role="group"
-            aria-label="Filtrer les projets par domaine"
-          >
-            {[null, ...domains].map((d) => (
-              <button
-                key={d ?? "all"}
-                aria-pressed={filter === d}
-                onClick={() => {
-                  setFilter(d);
-                  setActive(null);
-                  setVisited([]);
-                  setDetail(false);
-                }}
-              >
-                {d ?? "Tous"}
-              </button>
-            ))}
-          </div>
           <div
             className={`stage ${work ? "unfolded" : ""}`}
             ref={stage}
@@ -306,9 +270,7 @@ function App() {
                   className="project-brief"
                   style={{ background: work.color }}
                 >
-                  <span>
-                    {work.type} · {work.domains.join(" · ")}
-                  </span>
+                  <span>{work.type}</span>
                   <h2>{work.name}</h2>
                   <div
                     className="project-steps"
@@ -392,9 +354,7 @@ function App() {
         </section>
         <section className="works" id="projets" aria-labelledby="works-title">
           <div className="section-label">
-            <h2 id="works-title">
-              Projets {filter ? `· ${filter}` : "sélectionnés"}
-            </h2>
+            <h2 id="works-title">Projets sélectionnés</h2>
             <span>01 — {pad(count)}</span>
           </div>
           {works.map((p, i) => (
