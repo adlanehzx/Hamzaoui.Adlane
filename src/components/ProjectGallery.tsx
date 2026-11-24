@@ -38,9 +38,8 @@ export default function ProjectGallery({ name }: { name: string }) {
       </div>
       <div className="gallery-caption">
         <div>
-          <span>
-            {String(index + 1).padStart(2, "0")} /{" "}
-            {String(captures.length).padStart(2, "0")}
+          <span className="gallery-count">
+            {index + 1}/{captures.length}
           </span>
           <p aria-live="polite">{capture.label}</p>
           <small>{capture.note}</small>

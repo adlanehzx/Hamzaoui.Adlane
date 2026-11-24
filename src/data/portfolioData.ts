@@ -10,8 +10,8 @@ const content = {
     experiences: [
       {
         id: "rmz",
-        company: "RMZ GESTION · Paris",
-        role: "Alternant — Systèmes d’information",
+        company: "RMZ Gestion, Paris",
+        role: "Alternant en systèmes d’information",
         period: "Depuis novembre 2025",
         description: [
           "Outils internes et automatisation des opérations d’un groupe hôtelier",
@@ -21,9 +21,9 @@ const content = {
       },
       {
         id: "ethos",
-        company: "Ethos DeFi · Nevada, USA (remote)",
+        company: "Ethos DeFi, Nevada (remote)",
         role: "Ingénieur logiciel",
-        period: "Novembre 2024 — Mai 2025",
+        period: "Novembre 2024 – mai 2025",
         description: [
           "Plateforme d’échange crypto et DeFi : React Native, ethers.js, WalletConnect",
           "Organisation des sprints Scrum et revues de code",
@@ -50,8 +50,8 @@ const content = {
     experiences: [
       {
         id: "rmz",
-        company: "RMZ GESTION · Paris",
-        role: "Apprentice — Information Systems",
+        company: "RMZ Gestion, Paris",
+        role: "Information systems apprentice",
         period: "Since November 2025",
         description: [
           "Internal tools and automation for a hotel group’s operations",
@@ -61,9 +61,9 @@ const content = {
       },
       {
         id: "ethos",
-        company: "Ethos DeFi · Nevada, USA (remote)",
+        company: "Ethos DeFi, Nevada (remote)",
         role: "Software engineer",
-        period: "November 2024 — May 2025",
+        period: "November 2024 – May 2025",
         description: [
           "Crypto exchange and DeFi platform: React Native, ethers.js, WalletConnect",
           "Scrum sprint planning and code reviews",

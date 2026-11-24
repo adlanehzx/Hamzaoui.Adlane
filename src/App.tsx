@@ -1,17 +1,9 @@
-import { Fragment, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import ProjectGallery from "./components/ProjectGallery";
-import {
-  ArrowUpRight,
-  ArrowDown,
-  ArrowUp,
-  ArrowLeft,
-  ArrowRight,
-  X,
-  Plus,
-  Minus,
-} from "lucide-react";
 import { experiences, personalInfo, skills } from "./data/portfolioData";
-import { categories, categoryOrder as order, projects } from "./data/projects";
+import { projectCaptures } from "./data/projectCaptures";
+import { categories, categoryOrder, projects } from "./data/projects";
 import { lang, ui } from "./i18n";
 
 document.documentElement.lang = lang;
@@ -20,44 +12,207 @@ document
   .querySelector('meta[name="description"]')
   ?.setAttribute("content", ui.meta.description);
 
+type Project = (typeof projects)[number];
+type Size = "wide" | "half" | "third";
+
+/** Layout rhythm: one wide client case, pairs, then a row of three. */
+const sizes: Record<string, Size> = {
+  "Corso Motors": "wide",
+  "Comp Bike": "half",
+  "Hackathon Michelin": "half",
+  HankoTrack: "half",
+  Kanboard: "half",
+  Bastion: "half",
+  RugRadar: "half",
+  Nexus: "third",
+  SORAVYN: "third",
+  Specto: "third",
+};
+
+const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const firstSentence = (text: string) => text.split(/(?<=\.)\s/)[0] ?? text;
+const thumbnail = (name: string) => projectCaptures[name]?.[0]?.src;
+
+function ProjectCard({
+  project,
+  onOpen,
+}: {
+  project: Project;
+  onOpen: () => void;
+}) {
+  const size = sizes[project.name] ?? "third";
+  const image = thumbnail(project.name);
+  return (
+    <li className={`card card-${size}`}>
+      <button
+        className="card-button"
+        onClick={onOpen}
+        aria-label={ui.open(project.name)}
+      >
+        {image && (
+          <img
+            className="card-image"
+            src={image}
+            alt=""
+            width={1440}
+            height={960}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+        <span className="card-text">
+          <span className="card-name">{project.name}</span>
+          <span className="card-type">{project.type}</span>
+          {size === "wide" && (
+            <span className="card-summary">{firstSentence(project.copy)}</span>
+          )}
+          <span className="card-role">{project.role}</span>
+        </span>
+      </button>
+    </li>
+  );
+}
+
+function ProjectSheet({
+  project,
+  onClose,
+  onMove,
+}: {
+  project: Project | null;
+  onClose: () => void;
+  onMove: (delta: number) => void;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const index = project ? projects.indexOf(project) : -1;
+  const previous = projects[(index - 1 + projects.length) % projects.length];
+  const next = projects[(index + 1) % projects.length];
+
+  useEffect(() => {
+    const node = dialog.current;
+    if (!node) return;
+    if (project && !node.open) node.showModal();
+    if (!project && node.open) node.close();
+  }, [project]);
+
+  return (
+    <dialog
+      ref={dialog}
+      className="sheet"
+      aria-labelledby="sheet-title"
+      onClose={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      {project && (
+        <article className="sheet-body" key={project.name}>
+          <header className="sheet-head">
+            <div>
+              <p className="sheet-type">{project.type}</p>
+              <h2 id="sheet-title">{project.name}</h2>
+            </div>
+            <button
+              className="icon-button"
+              onClick={onClose}
+              aria-label={ui.dialog.close}
+            >
+              <X aria-hidden="true" />
+            </button>
+          </header>
+          <div className="sheet-columns">
+            <div className="sheet-text">
+              <p className="sheet-copy">{project.copy}</p>
+              <dl className="sheet-facts">
+                <div>
+                  <dt>{ui.dialog.role}</dt>
+                  <dd>{project.role}</dd>
+                </div>
+                <div>
+                  <dt>{ui.dialog.stack}</dt>
+                  <dd>{project.stack}</dd>
+                </div>
+                <div>
+                  <dt>{ui.dialog.highlights}</dt>
+                  <dd>
+                    <ul>
+                      {project.steps.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+              <a
+                className="button"
+                href={project.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.url.includes("github.com")
+                  ? ui.dialog.repo
+                  : ui.dialog.site}
+              </a>
+            </div>
+            <ProjectGallery name={project.name} />
+          </div>
+          <footer className="sheet-foot">
+            <button onClick={() => onMove(-1)}>
+              <ArrowLeft aria-hidden="true" />
+              <span>
+                <small>{ui.dialog.previous}</small>
+                {previous?.name}
+              </span>
+            </button>
+            <button onClick={() => onMove(1)}>
+              <span>
+                <small>{ui.dialog.next}</small>
+                {next?.name}
+              </span>
+              <ArrowRight aria-hidden="true" />
+            </button>
+          </footer>
+        </article>
+      )}
+    </dialog>
+  );
+}
+
 function App() {
-  const works = projects;
-  const count = works.length;
-  const pad = (n: number) => n.toString().padStart(2, "0");
-  const groupSize = (c: (typeof works)[number]["category"]) =>
-    works.filter((w) => w.category === c).length;
-  const startsGroup = (i: number) =>
-    i === 0 || works[i - 1].category !== works[i].category;
-  const [step, setStep] = useState(0);
-  const [active, setActive] = useState<number | null>(null);
-  const [visited, setVisited] = useState<number[]>([]);
-  const [detail, setDetail] = useState(false);
-  const stage = useRef<HTMLDivElement>(null);
-  const start = useRef<number | null>(null);
-  const swiped = useRef(false);
-  const work = active === null ? null : works[active];
-  function select(index: number) {
-    setActive(index);
-    setStep(0);
-    setDetail(false);
-    setVisited((v) => (v.includes(index) ? v : [...v, index]));
-  }
+  const [open, setOpen] = useState<number | null>(() => {
+    const found = projects.findIndex(
+      (p) => `#${slug(p.name)}` === window.location.hash,
+    );
+    return found >= 0 ? found : null;
+  });
+  const object = useRef<HTMLButtonElement>(null);
+  const current = open === null ? null : (projects[open] ?? null);
+
+  useEffect(() => {
+    const url = window.location.pathname;
+    if (current)
+      window.history.replaceState(null, "", `${url}#${slug(current.name)}`);
+    else if (projects.some((p) => `#${slug(p.name)}` === window.location.hash))
+      window.history.replaceState(null, "", url);
+  }, [current]);
+
+  const move = (delta: number) =>
+    setOpen((i) =>
+      i === null ? 0 : (i + delta + projects.length) % projects.length,
+    );
+
   return (
     <>
       <a className="skip" href="#projets">
         {ui.skip}
       </a>
-      <header>
-        <a className="signature" href="#">
-          adlane<span>hamzaoui</span>
+      <header className="top">
+        <a className="signature" href={lang === "en" ? "/en" : "/"}>
+          Adlane Hamzaoui
         </a>
         <nav aria-label={ui.nav.label}>
-          <a href="#projets">
-            {ui.nav.work} <sup>{pad(projects.length)}</sup>
-          </a>
-          <a className="nav-about" href="#parcours">
-            {ui.nav.about}
-          </a>
+          <a href="#projets">{ui.nav.work}</a>
+          <a href="#parcours">{ui.nav.about}</a>
+          <a href="#contact">{ui.nav.contact}</a>
           <a
             className="lang-switch"
             href={lang === "en" ? "/" : "/en"}
@@ -67,351 +222,169 @@ function App() {
             <span aria-current={lang === "fr" ? "true" : undefined}>FR</span>
             <span aria-current={lang === "en" ? "true" : undefined}>EN</span>
           </a>
-          <a href={`mailto:${personalInfo.email}`}>
-            {ui.nav.talk}{" "}
-            <span>
-              <ArrowUpRight aria-hidden="true" />
-            </span>
-          </a>
         </nav>
       </header>
+
       <main>
-        <section className="atelier" aria-labelledby="title">
-          <div className="edition">
-            <span>{ui.edition}</span>
-            <span>Paris, FR — Portfolio / 2026</span>
-          </div>
-          <h1 id="title">
-            {ui.hero[0]}
-            <br />
-            <em>{ui.hero[1]}</em>
-          </h1>
-          <div
-            className={`stage ${work ? "unfolded" : ""}`}
-            ref={stage}
-            style={
-              { "--accent": work?.color ?? "#c3c0b8" } as React.CSSProperties
-            }
-            onPointerMove={(e) => {
-              if (e.pointerType === "touch") return;
-              const r = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty(
-                "--rx",
-                `${(e.clientY - r.top - r.height / 2) / 35}deg`,
-              );
-              e.currentTarget.style.setProperty(
-                "--ry",
-                `${(e.clientX - r.left - r.width / 2) / 35}deg`,
-              );
-            }}
-            onPointerLeave={() => {
-              stage.current?.style.setProperty("--rx", "0deg");
-              stage.current?.style.setProperty("--ry", "0deg");
-            }}
-          >
-            <div className="coordinates" aria-hidden="true">
-              {pad(count)} {ui.projectsCount}
-              <br />
-              <span className="coordinates-groups">{ui.groupsLine}</span>
-            </div>
-            <div className="object-wrap">
-              <button
-                className="metal"
-                aria-label={work ? ui.closeProject : ui.openFirst}
-                onClick={() => {
-                  if (swiped.current) {
-                    swiped.current = false;
-                    return;
-                  }
-                  if (work) setActive(null);
-                  else select(0);
-                }}
-                onPointerDown={(e) => {
-                  start.current = e.clientX;
-                  swiped.current = false;
-                  e.currentTarget.setPointerCapture(e.pointerId);
-                }}
-                onPointerUp={(e) => {
-                  if (
-                    start.current !== null &&
-                    Math.abs(e.clientX - start.current) > 45
-                  ) {
-                    swiped.current = true;
-                    select(((active ?? -1) + 1) % count);
-                    start.current = null;
-                    e.preventDefault();
-                  }
-                }}
+        <section className="hero" aria-labelledby="title">
+          <div className="hero-text">
+            <h1 id="title">{ui.hero}</h1>
+            <p>{ui.intro}</p>
+            <div className="actions">
+              <a className="button" href="#projets">
+                {ui.seeProjects}
+              </a>
+              <a
+                className="button button-quiet"
+                href={`mailto:${personalInfo.email}`}
               >
-                {Array.from({ length: 9 }, (_, i) => (
-                  <span key={i} style={{ "--i": i } as React.CSSProperties} />
-                ))}
-                <span className="object-stamp">
-                  AH / {visited.length.toString().padStart(2, "0")}
-                </span>
-              </button>
+                {ui.writeMe}
+              </a>
             </div>
-            {work && (
-              <div className="project-surface" key={active}>
-                <div className="surface-top">
+          </div>
+          <div className="object-wrap">
+            <button
+              ref={object}
+              className="metal"
+              aria-label={ui.objectLabel}
+              onClick={() =>
+                document.getElementById("projets")?.scrollIntoView()
+              }
+              onPointerMove={(e) => {
+                if (e.pointerType === "touch") return;
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty(
+                  "--rx",
+                  `${(e.clientY - r.top - r.height / 2) / -14}deg`,
+                );
+                e.currentTarget.style.setProperty(
+                  "--ry",
+                  `${(e.clientX - r.left - r.width / 2) / 14}deg`,
+                );
+              }}
+              onPointerLeave={() => {
+                object.current?.style.setProperty("--rx", "0deg");
+                object.current?.style.setProperty("--ry", "0deg");
+              }}
+            >
+              {Array.from({ length: 9 }, (_, i) => (
+                <span key={i} style={{ "--i": i } as React.CSSProperties} />
+              ))}
+            </button>
+          </div>
+        </section>
+
+        <section className="work" id="projets" aria-labelledby="work-title">
+          <div className="work-head">
+            <h2 id="work-title">{ui.workTitle}</h2>
+            <p>{ui.workIntro}</p>
+          </div>
+          {categoryOrder.map((category) => {
+            const items = projects.filter((p) => p.category === category);
+            return (
+              <section
+                className="group"
+                key={category}
+                aria-labelledby={`group-${category}`}
+              >
+                <header className="group-head">
+                  <h3 id={`group-${category}`}>{categories[category].title}</h3>
+                  <p>{categories[category].intro}</p>
                   <span>
-                    {pad((active ?? 0) + 1)} / {work.label}
+                    {items.length} {ui.project(items.length)}
                   </span>
-                  <button
-                    onClick={() => setActive(null)}
-                    aria-label={ui.closeProject}
-                  >
-                    <X aria-hidden="true" />
-                  </button>
-                </div>
-                <div
-                  className="project-brief"
-                  style={{ background: work.color }}
-                >
-                  <span>{work.type}</span>
-                  <h2>{work.name}</h2>
-                  <div className="project-steps" aria-label={ui.projectSteps}>
-                    {work.steps.map((label, index) => (
-                      <button
-                        key={label}
-                        aria-pressed={step === index}
-                        onClick={() => setStep(index)}
-                      >
-                        <small>0{index + 1}</small>
-                        {label}
-                      </button>
+                </header>
+                <ul className="cards">
+                  {items.map((project) => (
+                    <ProjectCard
+                      key={project.name}
+                      project={project}
+                      onOpen={() => setOpen(projects.indexOf(project))}
+                    />
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
+        </section>
+
+        <section className="about" id="parcours" aria-labelledby="about-title">
+          <div className="about-intro">
+            <h2 id="about-title">{ui.aboutTitle}</h2>
+            {ui.about.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </div>
+          <div className="about-details">
+            <h3>{ui.experience}</h3>
+            <ol className="jobs">
+              {experiences.map((e) => (
+                <li key={e.id}>
+                  <p className="job-period">{e.period}</p>
+                  <p className="job-title">
+                    {e.role}
+                    <span>{e.company}</span>
+                  </p>
+                  <ul>
+                    {e.description.map((line) => (
+                      <li key={line}>{line}</li>
                     ))}
-                  </div>
-                  <p aria-live="polite">{work.steps[step]}</p>
-                  <a href={work.url} target="_blank" rel="noreferrer">
-                    {work.name === "Corso Motors" ? ui.visitSite : ui.viewRepo}{" "}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </div>
-                <div className="surface-paging">
-                  <button
-                    aria-label={ui.previous}
-                    onClick={() => select(((active ?? 0) + count - 1) % count)}
-                  >
-                    <ArrowLeft aria-hidden="true" />
-                  </button>
-                  <span>
-                    {work.name}{" "}
-                    <small>
-                      {pad((active ?? 0) + 1)} / {pad(count)}
-                    </small>
-                  </span>
-                  <button
-                    aria-label={ui.next}
-                    onClick={() => select(((active ?? 0) + 1) % count)}
-                  >
-                    <ArrowRight aria-hidden="true" />
-                  </button>
-                </div>
-                <div className="surface-caption">
-                  <span>{work.stack}</span>
-                  <span>{work.role}</span>
-                </div>
-              </div>
-            )}
-            <div className="project-navigation" aria-label={ui.chooseProject}>
-              {works.map((project, index) => (
-                <Fragment key={project.name}>
-                  {startsGroup(index) && (
-                    <small className="nav-group">
-                      {categories[project.category].short}
-                    </small>
-                  )}
-                  <button
-                    aria-pressed={active === index}
-                    onClick={() => select(index)}
-                  >
-                    <span>{pad(index + 1)}</span>
-                    {project.name}
-                  </button>
-                </Fragment>
+                  </ul>
+                </li>
               ))}
-            </div>
-            <span className="stage-note">
-              {work ? ui.noteOpen : ui.noteIdle}
-            </span>
-          </div>
-          <div className="intro-bottom">
-            <p>
-              Adlane Hamzaoui · Paris <br />
-              {ui.introLine}
-            </p>
-            <a href="#projets">
-              {ui.explore}{" "}
-              <span>
-                <ArrowDown aria-hidden="true" />
-              </span>
-            </a>
-          </div>
-        </section>
-        <section className="works" id="projets" aria-labelledby="works-title">
-          <div className="section-label">
-            <h2 id="works-title">{ui.workTitle}</h2>
-            <span>
-              {pad(count)} {ui.project(count)}
-            </span>
-          </div>
-          {works.map((p, i) => (
-            <Fragment key={p.name}>
-              {startsGroup(i) && (
-                <div className="group-head">
-                  <span className="group-index">
-                    {pad(order.indexOf(p.category) + 1)}
-                  </span>
-                  <h3>{categories[p.category].title}</h3>
-                  <p>{categories[p.category].intro}</p>
-                  <span className="group-count">
-                    {pad(groupSize(p.category))}{" "}
-                    {ui.project(groupSize(p.category))}
-                  </span>
+            </ol>
+            <h3>{ui.skillsTitle}</h3>
+            <dl className="skills">
+              {skills.map(([name, value]) => (
+                <div key={name}>
+                  <dt>{name}</dt>
+                  <dd>{value}</dd>
                 </div>
-              )}
-              <div className={`work-row ${active === i ? "selected" : ""}`}>
-                <button
-                  className="work-select"
-                  aria-expanded={active === i}
-                  onClick={() => {
-                    select(i);
-                    document.querySelector(".stage")?.scrollIntoView({
-                      behavior: matchMedia("(prefers-reduced-motion: reduce)")
-                        .matches
-                        ? "instant"
-                        : "smooth",
-                      block: "center",
-                    });
-                  }}
-                >
-                  <span className="work-number">
-                    {pad(i + 1)}
-                    <i className={visited.includes(i) ? "seen" : ""} />
-                  </span>
-                  <span className="work-name">
-                    {p.name}
-                    <small>
-                      {p.type} · {p.role}
-                    </small>
-                  </span>
-                  <span className="work-stack">{p.stack}</span>
-                  <ArrowUpRight className="work-arrow" aria-hidden="true" />
-                </button>
-                <ProjectGallery name={p.name} />
-                {active === i && (
-                  <div className="work-details">
-                    <p>{p.copy}</p>
-                    <button
-                      onClick={() => setDetail(!detail)}
-                      aria-expanded={detail}
-                    >
-                      {detail ? ui.close : ui.details}{" "}
-                      {detail ? (
-                        <Minus aria-hidden="true" />
-                      ) : (
-                        <Plus aria-hidden="true" />
-                      )}
-                    </button>
-                    {detail && (
-                      <div className="case-study">
-                        <p>{p.stack}</p>
-                        <p>{p.copy}</p>
-                        <a href={p.url} target="_blank" rel="noreferrer">
-                          {p.name === "Corso Motors"
-                            ? ui.visitSite
-                            : ui.viewRepo}{" "}
-                          <ArrowUpRight aria-hidden="true" />
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </Fragment>
-          ))}
-        </section>
-        <section className="about" id="parcours">
-          <div className="section-label">
-            <h2>{ui.aboutTitle}</h2>
-            <span>ADLANE HAMZAOUI</span>
-          </div>
-          <div className="about-grid">
-            <p className="statement">
-              {ui.statement[0]}
-              <br />
-              <em>{ui.statement[1]}</em>
-            </p>
-            <div>
-              {ui.about.map((text) => (
-                <p key={text}>{text}</p>
               ))}
-            </div>
-          </div>
-          <div className="skills-grid">
-            {skills.map(([name, value]) => (
-              <div key={name}>
-                <h3>{name}</h3>
-                <p>{value}</p>
-              </div>
-            ))}
-          </div>
-          <div className="timeline">
-            {experiences.map((e) => (
-              <article key={e.id}>
-                <span>{e.period}</span>
-                <h3>{e.company}</h3>
-                <p>
-                  {e.role}
-                  <small>{e.description.join(" · ")}</small>
-                </p>
-              </article>
-            ))}
-          </div>
-          <div className="education">
+            </dl>
             <h3>{ui.education}</h3>
             <p>
-              {ui.degree} <span>{ui.degreeWhere}</span>
+              {ui.degree}
+              <br />
+              <span className="muted">{ui.degreeWhere}</span>
             </p>
+            <h3>{ui.languagesTitle}</h3>
             <p>{ui.languages}</p>
-            <p>{ui.softSkills}</p>
           </div>
         </section>
-        <footer id="contact">
-          <span className="footer-label">{ui.footerLabel}</span>
-          <a className="contact" href={`mailto:${personalInfo.email}`}>
-            {ui.contact}
-            <span>
-              <ArrowUpRight aria-hidden="true" />
-            </span>
-          </a>
-          <p className="contact-info">{ui.location}</p>
-          <div className="footer-bottom">
-            <span>Adlane Hamzaoui © {new Date().getFullYear()}</span>
-            <a
-              href="https://github.com/adlanehzx"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a
-              href="https://linkedin.com/in/adlane-hamzaoui"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a href={`mailto:${personalInfo.email}`}>
-              Email <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a href="#">
-              {ui.backToTop} <ArrowUp aria-hidden="true" />
-            </a>
-          </div>
-        </footer>
       </main>
+
+      <footer className="contact" id="contact">
+        <h2>{ui.contactTitle}</h2>
+        <p>{ui.contactText}</p>
+        <a className="mail" href={`mailto:${personalInfo.email}`}>
+          {personalInfo.email}
+        </a>
+        <div className="contact-links">
+          <span>{ui.location}</span>
+          <a
+            href="https://www.linkedin.com/in/adlane-hamzaoui/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/adlanehzx"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+          <a href="#title">{ui.backToTop}</a>
+        </div>
+      </footer>
+
+      <ProjectSheet
+        project={current}
+        onClose={() => setOpen(null)}
+        onMove={move}
+      />
     </>
   );
 }
