@@ -11,187 +11,21 @@ import {
   Minus,
 } from "lucide-react";
 import { experiences, personalInfo, skills } from "./data/portfolioData";
+import { categories, categoryOrder as order, projects } from "./data/projects";
+import { lang, ui } from "./i18n";
 
-type Category = "client" | "hackathon" | "ecole" | "perso";
-const categories: Record<
-  Category,
-  { title: string; short: string; intro: string }
-> = {
-  client: {
-    title: "Projet client",
-    short: "Client",
-    intro: "Conçu et livré pour un client, du cadrage à la mise en production.",
-  },
-  hackathon: {
-    title: "Hackathons",
-    short: "Hackathons",
-    intro: "Des produits construits en équipe, en temps limité.",
-  },
-  ecole: {
-    title: "Projets annuels ESGI",
-    short: "ESGI",
-    intro:
-      "Projets de fin d’année menés en équipe à l’ESGI, de la conception au déploiement.",
-  },
-  perso: {
-    title: "Projets personnels",
-    short: "Perso",
-    intro:
-      "Des projets menés de bout en bout, pour apprendre et pour mon propre usage.",
-  },
-};
-
-const projects: {
-  name: string;
-  category: Category;
-  type: string;
-  role: string;
-  stack: string;
-  copy: string;
-  color: string;
-  label: string;
-  url: string;
-  steps: string[];
-}[] = [
-  {
-    name: "Corso Motors",
-    category: "client",
-    type: "Constructeur automobile",
-    role: "Chef de projet & développeur",
-    stack: "Docker · Traefik · SSO · VPS",
-    copy: "Écosystème numérique pour un constructeur automobile : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée sur VPS avec SSO, PLM, Git, wiki, drive et messagerie. Projet mené de bout en bout, du cadrage des besoins à la mise en production.",
-    color: "#e6aa72",
-    label: "ÉCOSYSTÈME SOUVERAIN",
-    url: "https://corso-motors.com",
-    steps: [
-      "Cadrage & planification",
-      "Site & outils internes",
-      "Infrastructure privée",
-    ],
-  },
-  {
-    name: "Comp Bike",
-    category: "hackathon",
-    type: "Hackathon Kiro · En équipe",
-    role: "Chef de projet & développeur",
-    stack: "Next.js · Django REST · PostgreSQL · Redis",
-    copy: "Moteur de compatibilité cross-marques pour identifier les composants de vélo compatibles et comparer les prix du marché. Réalisé en équipe lors du hackathon Kiro : cadrage d’un périmètre minimal, répartition des tâches et livraison dans les délais.",
-    color: "#b8c7a5",
-    label: "COMPATIBILITÉ VÉLO",
-    url: "https://github.com/ilyas-ya/comp_bike",
-    steps: ["Composants", "Compatibilité", "Comparaison des prix"],
-  },
-  {
-    name: "Hackathon Michelin",
-    category: "hackathon",
-    type: "Hackathon Michelin · En équipe",
-    role: "Développeur full-stack",
-    stack: "React Native · Expo · Express · Supabase",
-    copy: "Application mobile autour du Guide Michelin : création de parcours gastronomiques personnalisés (distinctions, cuisine, budget, distance), restaurants et hôtels, badges et niveaux. Authentification JWT, réinitialisation du mot de passe par email et version web.",
-    color: "#dfa49b",
-    label: "PARCOURS GASTRONOMIQUES",
-    url: "https://github.com/adlanehzx/Hackathon-michelin",
-    steps: [
-      "Parcours personnalisés",
-      "Restaurants & hôtels",
-      "Badges & niveaux",
-    ],
-  },
-  {
-    name: "HankoTrack",
-    category: "ecole",
-    type: "Suivi d’anime · En équipe",
-    role: "Scrum Master & développeur",
-    stack: "Nuxt · Express · Prisma · Socket.io",
-    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
-    color: "#b9b2cf",
-    label: "COMMUNAUTÉ & TEMPS RÉEL",
-    url: "https://github.com/adlanehzx/Projet-Annuel",
-    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
-  },
-  {
-    name: "Kanboard",
-    category: "ecole",
-    type: "Gestion de projet · En binôme",
-    role: "Développeur full-stack",
-    stack: "Laravel · Blade · MySQL · Tailwind CSS",
-    copy: "Application de gestion de projet en Kanban : tableaux, listes et cartes déplaçables, membres et assignations, vue calendrier jour, semaine et mois avec export ICS, partage public d’une carte. Chargement des tableaux optimisé de 179 à 15 requêtes, déploiement sur DigitalOcean derrière Traefik.",
-    color: "#a9c2c4",
-    label: "TABLEAUX & CALENDRIER",
-    url: "https://github.com/ilyes-i-ben/kanboard",
-    steps: [
-      "Tableaux & cartes",
-      "Calendrier & export ICS",
-      "Partage & déploiement",
-    ],
-  },
-  {
-    name: "Bastion",
-    category: "perso",
-    type: "Finance décentralisée",
-    role: "Concepteur & développeur",
-    stack: "Solidity · Foundry · Rust · Chainlink",
-    copy: "Coffre DeFi non custodial sur BNB Chain qui exécute automatiquement des ordres DCA, limites, stop-loss et take-profit. Les prix viennent de Chainlink ; un keeper en Rust déclenche les ordres sans pouvoir retirer les fonds. Tests unitaires, fuzzing et invariants avec Foundry.",
-    color: "#d9c27a",
-    label: "ORDRES AUTOMATISÉS ON-CHAIN",
-    url: "https://github.com/adlanehzx/bastion",
-    steps: ["Smart contract", "Keeper Rust", "Fuzzing & invariants"],
-  },
-  {
-    name: "RugRadar",
-    category: "perso",
-    type: "Sécurité blockchain",
-    role: "Concepteur & développeur",
-    stack: "Rust · alloy · Solidity · SQLite",
-    copy: "Scanner de risque en temps réel des nouveaux tokens listés sur PancakeSwap. Chaque paire est analysée en quelques secondes : honeypot simulé en un seul eth_call, taxes cachées, liquidité et fonctions dangereuses du bytecode. Score sur 100 et alertes Telegram.",
-    color: "#c9a9a0",
-    label: "ANALYSE DE TOKENS EN TEMPS RÉEL",
-    url: "https://github.com/adlanehzx/rugradar",
-    steps: ["Détection des paires", "Simulation & bytecode", "Score & alertes"],
-  },
-  {
-    name: "Nexus",
-    category: "perso",
-    type: "Assistant IA",
-    role: "Concepteur & développeur",
-    stack: "TypeScript · Expo · Tool calling · pgvector",
-    copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité de chaque action.",
-    color: "#b8c7a5",
-    label: "DE L’INTENTION À L’ACTION",
-    url: "https://github.com/adlanehzx/Nexus",
-    steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
-  },
-  {
-    name: "SORAVYN",
-    category: "perso",
-    type: "Agence marketing IA",
-    role: "Concepteur & développeur",
-    stack: "TypeScript · Multi-agents · Vidéo · Voix",
-    copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
-    color: "#e3b48c",
-    label: "CAMPAGNES PILOTÉES PAR AGENTS",
-    url: "https://github.com/adlanehzx/soravyn",
-    steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
-  },
-  {
-    name: "Specto",
-    category: "perso",
-    type: "Tests générés par IA",
-    role: "Concepteur & développeur",
-    stack: "Playwright · BullMQ · CI/CD · IA générative",
-    copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
-    color: "#aebbd0",
-    label: "DU LANGAGE NATUREL AUX TESTS",
-    url: "https://github.com/adlanehzx/specto",
-    steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
-  },
-];
+document.documentElement.lang = lang;
+document.title = ui.meta.title;
+document
+  .querySelector('meta[name="description"]')
+  ?.setAttribute("content", ui.meta.description);
 
 function App() {
   const works = projects;
   const count = works.length;
   const pad = (n: number) => n.toString().padStart(2, "0");
-  const order: Category[] = ["client", "hackathon", "ecole", "perso"];
+  const groupSize = (c: (typeof works)[number]["category"]) =>
+    works.filter((w) => w.category === c).length;
   const startsGroup = (i: number) =>
     i === 0 || works[i - 1].category !== works[i].category;
   const [step, setStep] = useState(0);
@@ -211,19 +45,30 @@ function App() {
   return (
     <>
       <a className="skip" href="#projets">
-        Aller aux projets
+        {ui.skip}
       </a>
       <header>
         <a className="signature" href="#">
           adlane<span>hamzaoui</span>
         </a>
-        <nav aria-label="Navigation principale">
+        <nav aria-label={ui.nav.label}>
           <a href="#projets">
-            Travaux <sup>{pad(projects.length)}</sup>
+            {ui.nav.work} <sup>{pad(projects.length)}</sup>
           </a>
-          <a href="#parcours">À propos</a>
-          <a href="mailto:contact.adlanehz@gmail.com">
-            Parlons-en{" "}
+          <a className="nav-about" href="#parcours">
+            {ui.nav.about}
+          </a>
+          <a
+            className="lang-switch"
+            href={lang === "en" ? "/" : "/en"}
+            hrefLang={lang === "en" ? "fr" : "en"}
+            aria-label={ui.switchLabel}
+          >
+            <span aria-current={lang === "fr" ? "true" : undefined}>FR</span>
+            <span aria-current={lang === "en" ? "true" : undefined}>EN</span>
+          </a>
+          <a href={`mailto:${personalInfo.email}`}>
+            {ui.nav.talk}{" "}
             <span>
               <ArrowUpRight aria-hidden="true" />
             </span>
@@ -233,13 +78,13 @@ function App() {
       <main>
         <section className="atelier" aria-labelledby="title">
           <div className="edition">
-            <span>Ingénieur logiciel & projets IT</span>
+            <span>{ui.edition}</span>
             <span>Paris, FR — Portfolio / 2026</span>
           </div>
           <h1 id="title">
-            Des idées aux
+            {ui.hero[0]}
             <br />
-            <em>produits.</em>
+            <em>{ui.hero[1]}</em>
           </h1>
           <div
             className={`stage ${work ? "unfolded" : ""}`}
@@ -265,19 +110,14 @@ function App() {
             }}
           >
             <div className="coordinates" aria-hidden="true">
-              AH—001
+              {pad(count)} {ui.projectsCount}
               <br />
-              ADLANE HAMZAOUI
-              <br />
-              {visited.length.toString().padStart(2, "0")} EMPREINTE
-              {visited.length > 1 ? "S" : ""}
+              <span className="coordinates-groups">{ui.groupsLine}</span>
             </div>
             <div className="object-wrap">
               <button
                 className="metal"
-                aria-label={
-                  work ? "Replier le projet" : "Découvrir le premier projet"
-                }
+                aria-label={work ? ui.closeProject : ui.openFirst}
                 onClick={() => {
                   if (swiped.current) {
                     swiped.current = false;
@@ -319,7 +159,7 @@ function App() {
                   </span>
                   <button
                     onClick={() => setActive(null)}
-                    aria-label="Replier le projet"
+                    aria-label={ui.closeProject}
                   >
                     <X aria-hidden="true" />
                   </button>
@@ -330,10 +170,7 @@ function App() {
                 >
                   <span>{work.type}</span>
                   <h2>{work.name}</h2>
-                  <div
-                    className="project-steps"
-                    aria-label="Parcours du projet"
-                  >
+                  <div className="project-steps" aria-label={ui.projectSteps}>
                     {work.steps.map((label, index) => (
                       <button
                         key={label}
@@ -347,15 +184,13 @@ function App() {
                   </div>
                   <p aria-live="polite">{work.steps[step]}</p>
                   <a href={work.url} target="_blank" rel="noreferrer">
-                    {work.name === "Corso Motors"
-                      ? "Visiter le site"
-                      : "Explorer le dépôt"}{" "}
+                    {work.name === "Corso Motors" ? ui.visitSite : ui.viewRepo}{" "}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
                 </div>
                 <div className="surface-paging">
                   <button
-                    aria-label="Projet précédent"
+                    aria-label={ui.previous}
                     onClick={() => select(((active ?? 0) + count - 1) % count)}
                   >
                     <ArrowLeft aria-hidden="true" />
@@ -367,7 +202,7 @@ function App() {
                     </small>
                   </span>
                   <button
-                    aria-label="Projet suivant"
+                    aria-label={ui.next}
                     onClick={() => select(((active ?? 0) + 1) % count)}
                   >
                     <ArrowRight aria-hidden="true" />
@@ -379,7 +214,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className="project-navigation" aria-label="Choisir un projet">
+            <div className="project-navigation" aria-label={ui.chooseProject}>
               {works.map((project, index) => (
                 <Fragment key={project.name}>
                   {startsGroup(index) && (
@@ -398,18 +233,16 @@ function App() {
               ))}
             </div>
             <span className="stage-note">
-              {work
-                ? "Architecture, outils, réalisation."
-                : "Choisissez un projet pour l’explorer."}
+              {work ? ui.noteOpen : ui.noteIdle}
             </span>
           </div>
           <div className="intro-bottom">
             <p>
               Adlane Hamzaoui · Paris <br />
-              Dernière année de Mastère à l’ESGI.
+              {ui.introLine}
             </p>
             <a href="#projets">
-              Explorer les travaux{" "}
+              {ui.explore}{" "}
               <span>
                 <ArrowDown aria-hidden="true" />
               </span>
@@ -418,8 +251,10 @@ function App() {
         </section>
         <section className="works" id="projets" aria-labelledby="works-title">
           <div className="section-label">
-            <h2 id="works-title">Travaux</h2>
-            <span>{pad(count)} projets</span>
+            <h2 id="works-title">{ui.workTitle}</h2>
+            <span>
+              {pad(count)} {ui.project(count)}
+            </span>
           </div>
           {works.map((p, i) => (
             <Fragment key={p.name}>
@@ -431,11 +266,8 @@ function App() {
                   <h3>{categories[p.category].title}</h3>
                   <p>{categories[p.category].intro}</p>
                   <span className="group-count">
-                    {pad(works.filter((w) => w.category === p.category).length)}{" "}
-                    projet
-                    {works.filter((w) => w.category === p.category).length > 1
-                      ? "s"
-                      : ""}
+                    {pad(groupSize(p.category))}{" "}
+                    {ui.project(groupSize(p.category))}
                   </span>
                 </div>
               )}
@@ -475,7 +307,7 @@ function App() {
                       onClick={() => setDetail(!detail)}
                       aria-expanded={detail}
                     >
-                      {detail ? "Fermer" : "Détails du projet"}{" "}
+                      {detail ? ui.close : ui.details}{" "}
                       {detail ? (
                         <Minus aria-hidden="true" />
                       ) : (
@@ -488,8 +320,8 @@ function App() {
                         <p>{p.copy}</p>
                         <a href={p.url} target="_blank" rel="noreferrer">
                           {p.name === "Corso Motors"
-                            ? "Visiter le site"
-                            : "Explorer le dépôt"}{" "}
+                            ? ui.visitSite
+                            : ui.viewRepo}{" "}
                           <ArrowUpRight aria-hidden="true" />
                         </a>
                       </div>
@@ -502,25 +334,19 @@ function App() {
         </section>
         <section className="about" id="parcours">
           <div className="section-label">
-            <h2>Parcours & compétences</h2>
+            <h2>{ui.aboutTitle}</h2>
             <span>ADLANE HAMZAOUI</span>
           </div>
           <div className="about-grid">
             <p className="statement">
-              Du besoin
+              {ui.statement[0]}
               <br />
-              <em>à la production.</em>
+              <em>{ui.statement[1]}</em>
             </p>
             <div>
-              <p>
-                Actuellement en dernière année de Mastère Ingénierie de la
-                Blockchain à l’ESGI, à la recherche de nouvelles opportunités.
-              </p>
-              <p>
-                Je conçois et livre des produits numériques de bout en bout :
-                cadrage du besoin, développement, déploiement et coordination
-                des équipes.
-              </p>
+              {ui.about.map((text) => (
+                <p key={text}>{text}</p>
+              ))}
             </div>
           </div>
           <div className="skills-grid">
@@ -544,34 +370,23 @@ function App() {
             ))}
           </div>
           <div className="education">
-            <h3>Formation</h3>
+            <h3>{ui.education}</h3>
             <p>
-              Mastère en Ingénierie de la Blockchain{" "}
-              <span>ESGI Paris · Septembre 2025 — Août 2027</span>
+              {ui.degree} <span>{ui.degreeWhere}</span>
             </p>
-            <p>
-              Français : langue maternelle · Anglais : professionnel technique
-            </p>
-            <p>
-              Travail en équipe agile (Scrum), code review, documentation
-              technique, résolution de problèmes et développement orienté
-              produit.
-            </p>
+            <p>{ui.languages}</p>
+            <p>{ui.softSkills}</p>
           </div>
         </section>
         <footer id="contact">
-          <span className="footer-label">
-            OUVERT AUX NOUVELLES OPPORTUNITÉS.
-          </span>
+          <span className="footer-label">{ui.footerLabel}</span>
           <a className="contact" href={`mailto:${personalInfo.email}`}>
-            Échangeons
+            {ui.contact}
             <span>
               <ArrowUpRight aria-hidden="true" />
             </span>
           </a>
-          <p className="contact-info">
-            Paris, France · <a href="tel:+33667748988">+33 6 67 74 89 88</a>
-          </p>
+          <p className="contact-info">{ui.location}</p>
           <div className="footer-bottom">
             <span>Adlane Hamzaoui © {new Date().getFullYear()}</span>
             <a
@@ -592,7 +407,7 @@ function App() {
               Email <ArrowUpRight aria-hidden="true" />
             </a>
             <a href="#">
-              Retour en haut <ArrowUp aria-hidden="true" />
+              {ui.backToTop} <ArrowUp aria-hidden="true" />
             </a>
           </div>
         </footer>

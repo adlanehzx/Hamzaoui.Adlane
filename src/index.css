@@ -1754,3 +1754,27 @@ nav a:last-child span,
     flex-basis: 80px;
   }
 }
+.lang-switch {
+  display: inline-flex;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+.lang-switch span {
+  color: #9a978e;
+}
+.lang-switch span[aria-current="true"] {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .coordinates-groups {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  .nav-about {
+    display: none;
+  }
+}
