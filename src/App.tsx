@@ -80,6 +80,18 @@ const projects: {
     steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
   },
   {
+    name: "SORAVYN",
+    type: "Projet personnel · Marketing",
+    role: "Concepteur & développeur",
+    domains: ["IA"],
+    stack: "TypeScript · Multi-agents · Vidéo · Voix",
+    copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
+    color: "#e3b48c",
+    label: "CAMPAGNES PILOTÉES PAR AGENTS",
+    url: "https://github.com/adlanehzx/soravyn",
+    steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
+  },
+  {
     name: "Specto",
     type: "Projet personnel · Qualité",
     role: "Concepteur & développeur",
@@ -102,6 +114,34 @@ const projects: {
     label: "COMMUNAUTÉ & TEMPS RÉEL",
     url: "https://github.com/adlanehzx/Projet-Annuel",
     steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
+  },
+  {
+    name: "Comp Bike",
+    type: "Hackathon Kiro · En équipe",
+    role: "Chef de projet & développeur",
+    domains: ["Web", "Pilotage"],
+    stack: "Next.js · Django REST · PostgreSQL · Redis",
+    copy: "Moteur de compatibilité cross-marques pour identifier les composants de vélo compatibles et comparer les prix du marché. Réalisé en équipe lors du hackathon Kiro : cadrage d’un périmètre minimal, répartition des tâches et livraison dans les délais.",
+    color: "#b8c7a5",
+    label: "COMPATIBILITÉ VÉLO",
+    url: "https://github.com/ilyas-ya/comp_bike",
+    steps: ["Composants", "Compatibilité", "Comparaison des prix"],
+  },
+  {
+    name: "Hackathon Michelin",
+    type: "Hackathon Michelin · En équipe",
+    role: "Développeur full-stack",
+    domains: ["Web"],
+    stack: "React Native · Expo · Express · Supabase",
+    copy: "Application mobile autour du Guide Michelin : création de parcours gastronomiques personnalisés (distinctions, cuisine, budget, distance), restaurants et hôtels, badges et niveaux. Authentification JWT, réinitialisation du mot de passe par email et version web.",
+    color: "#dfa49b",
+    label: "PARCOURS GASTRONOMIQUES",
+    url: "https://github.com/adlanehzx/Hackathon-michelin",
+    steps: [
+      "Parcours personnalisés",
+      "Restaurants & hôtels",
+      "Badges & niveaux",
+    ],
   },
 ];
 
@@ -339,8 +379,7 @@ function App() {
           </div>
           <div className="intro-bottom">
             <p>
-              Adlane Hamzaoui · Paris{" "}
-              <br />
+              Adlane Hamzaoui · Paris <br />
               Dernière année de Mastère à l’ESGI.
             </p>
             <a href="#projets">

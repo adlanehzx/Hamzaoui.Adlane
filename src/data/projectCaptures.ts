@@ -111,4 +111,16 @@ export const projectCaptures: Record<string, ProjectCapture[]> = {
       note: "Vue publique · aucun test IA exécuté pour cette capture.",
     },
   ],
+  "Hackathon Michelin": [
+    {
+      src: "/projects/michelin-parcours.webp",
+      label: "Création de parcours personnalisé",
+      note: "Version web Expo locale, sans backend.",
+    },
+    {
+      src: "/projects/michelin-profil.webp",
+      label: "Profil, badges et parcours complétés",
+      note: "Version web Expo locale, sans backend.",
+    },
+  ],
 };
