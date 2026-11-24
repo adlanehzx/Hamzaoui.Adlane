@@ -4,8 +4,10 @@ Images réellement capturées depuis les interfaces des dépôts clonés, sans m
 
 | Projet | Révision | Exécution et captures |
 | --- | --- | --- |
+| Bastion | `db7c6d0c90671f40a65a92d6bf6e452f4954bf49` | Sorties réelles de `forge test` (24 tests unitaires et fuzz, 5 invariants) et de `scripts/e2e.sh` (chaîne anvil locale, keeper Rust), affichées dans un cadre de terminal. Schéma d’architecture établi à partir du code, en français et en anglais. |
+| RugRadar | `78d9c51f5d8853a8bf33b0ac50216531ec810c19` | Chaîne BNB locale (ganache, chain id 56) avec Uniswap V2 et trois tokens de test du dépôt. Sorties réelles de `rugradar watch`, `stats` et `check`. Les alertes Telegram reprennent le texte produit par `format_alert` à partir de ces analyses, affiché dans une interface de type Telegram : aucun bot réel n’a été utilisé. |
 | Comp Bike | `1efc1ac2542fc8e70d8b890f2f28131a83ef2d7e` | Next.js local, accueil et configuration `/app`. Données de démonstration natives du frontend. Ancienne capture restaurée depuis `a5896d3^` / historique du portfolio. |
-| Hackathon Michelin | `87f0031fcf549efa971f39d5772cfde86a5b9aa6` | Export web Expo local (`expo export -p web`), sans backend : écrans de création de parcours et de profil, présentés dans un cadre mobile. La carte native n’est pas disponible sur web. |
+| Hackathon Michelin | `87f0031fcf549efa971f39d5772cfde86a5b9aa6` | Export web Expo local (`expo export -p web`), sans backend : écrans de création de parcours et de profil, présentés dans un cadre mobile. L’écran de recherche utilise des établissements fictifs servis par une API simulée dans le navigateur. La carte native n’est pas disponible sur web. |
 | HankoTrack | `b7063e00b8ea6896488dabfcf0f53585747ca483` | Nuxt local, accueil et fonctionnalités. Frontend sans API ; les chiffres et contenus de la page publique proviennent du code du projet. |
 | Kanboard | `1b73c4bdaa6fb8ee108bea3aa641272985ff11d0` | Quatre captures publiées dans le dépôt du projet (tableau, liste des tableaux, carte, membres), recadrées au format du portfolio. |
 | Nexus | `26ff42d9c946f5b58869a563a2054d1fce663070` | Dashboard Vite et dépendances internes compilées. Connexion en français, thème sombre. Pas de backend lancé : les vues administrateur internes ne sont pas présentées. |
