@@ -10,87 +10,108 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-import {
-  experiences,
-  personalInfo,
-  webSkills,
-  iaSkills,
-} from "./data/portfolioData";
+import { experiences, personalInfo, skills } from "./data/portfolioData";
 
-const portfolios = {
-  web: [
-    {
-      name: "Corso Motors",
-      type: "Projet client · Infrastructure",
-      stack: "Docker · Traefik · SSO · VPS",
-      copy: "Écosystème numérique pour un constructeur automobile algérien : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée avec SSO HMAC-SHA256, PLM Cascadia, messagerie SPF / DKIM / DMARC, Nextcloud, Forgejo et BookStack. Durcissement avec Fail2ban et rate limiting.",
-      color: "#e6aa72",
-      label: "01 / ÉCOSYSTÈME SOUVERAIN",
-      url: "https://corso-motors.com",
-      steps: ["Site & CMS", "Identité & services", "Infrastructure privée"],
-    },
-    {
-      name: "Comp Bike",
-      type: "Hackathon Kiro · En équipe",
-      stack: "Next.js · Django REST · PostgreSQL · Redis",
-      copy: "Moteur de compatibilité cross-marques pour identifier les composants de vélo compatibles et comparer les prix du marché. Réalisé en équipe lors du hackathon Kiro, sur DevPost.",
-      color: "#b8c7a5",
-      label: "02 / COMPATIBILITÉ VÉLO",
-      url: "https://github.com/ilyas-ya/comp_bike",
-      steps: ["Composants", "Compatibilité", "Comparaison des prix"],
-    },
-    {
-      name: "HankoTrack",
-      type: "Projet annuel · En équipe",
-      stack: "Nuxt · Express · Prisma · Socket.io",
-      copy: "Plateforme communautaire de suivi d’anime : watchlist, listes et collections, critiques et recommandations personnalisées. Mises à jour en temps réel, tests E2E Playwright et déploiement continu.",
-      color: "#aebbd0",
-      label: "03 / COMMUNAUTÉ & TEMPS RÉEL",
-      url: "https://github.com/adlanehzx/Projet-Annuel",
-      steps: [
-        "Watchlist & collections",
-        "Critiques & recommandations",
-        "Temps réel",
-      ],
-    },
-  ],
-  ia: [
-    {
-      name: "Nexus",
-      type: "Assistant IA · Multi-appareils",
-      stack: "TypeScript · Expo · Tool calling · pgvector",
-      copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité, moteur de missions durable, mémoire vectorielle et voix en local.",
-      color: "#b8c7a5",
-      label: "01 / DE L’INTENTION À L’ACTION",
-      url: "https://github.com/adlanehzx/Nexus",
-      steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
-    },
-    {
-      name: "SORAVYN",
-      type: "Marketing · Systèmes multi-agents",
-      stack: "TypeScript · Multi-agents · Vidéo · Voix",
-      copy: "Agence marketing IA pilotée par agents : workflow de campagnes avec validation humaine, production vidéo automatisée du scénario au rendu MP4, narration et studio de contenus.",
-      color: "#e6aa72",
-      label: "02 / CAMPAGNES PILOTÉES PAR AGENTS",
-      url: "https://github.com/adlanehzx/soravyn",
-      steps: ["Campagne", "Validation humaine", "Contenus & vidéo"],
-    },
-    {
-      name: "Specto",
-      type: "Qualité · Tests générés par IA",
-      stack: "Playwright · BullMQ · CI/CD · IA générative",
-      copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
-      color: "#aebbd0",
-      label: "03 / DU LANGAGE NATUREL AUX TESTS",
-      url: "https://github.com/adlanehzx/specto",
-      steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
-    },
-  ],
-};
+type Domain = "Web" | "Blockchain" | "IA" | "Pilotage";
+const domains: Domain[] = ["Web", "Blockchain", "IA", "Pilotage"];
+
+const projects: {
+  name: string;
+  type: string;
+  role: string;
+  domains: Domain[];
+  stack: string;
+  copy: string;
+  color: string;
+  label: string;
+  url: string;
+  steps: string[];
+}[] = [
+  {
+    name: "Corso Motors",
+    type: "Projet client",
+    role: "Chef de projet & développeur",
+    domains: ["Web", "Pilotage"],
+    stack: "Docker · Traefik · SSO · VPS",
+    copy: "Écosystème numérique pour un constructeur automobile : site vitrine avec CMS, analytique RGPD et supervision serveur. Infrastructure privée sur VPS avec SSO, PLM, Git, wiki, drive et messagerie. Projet mené de bout en bout, du cadrage des besoins à la mise en production.",
+    color: "#e6aa72",
+    label: "ÉCOSYSTÈME SOUVERAIN",
+    url: "https://corso-motors.com",
+    steps: [
+      "Cadrage & planification",
+      "Site & outils internes",
+      "Infrastructure privée",
+    ],
+  },
+  {
+    name: "Bastion",
+    type: "Projet personnel · DeFi",
+    role: "Concepteur & développeur",
+    domains: ["Blockchain"],
+    stack: "Solidity · Foundry · Rust · Chainlink",
+    copy: "Coffre DeFi non custodial sur BNB Chain qui exécute automatiquement des ordres DCA, limites, stop-loss et take-profit. Les prix viennent de Chainlink ; un keeper en Rust déclenche les ordres sans pouvoir retirer les fonds. Tests unitaires, fuzzing et invariants avec Foundry.",
+    color: "#d9c27a",
+    label: "ORDRES AUTOMATISÉS ON-CHAIN",
+    url: "https://github.com/adlanehzx/bastion",
+    steps: ["Smart contract", "Keeper Rust", "Fuzzing & invariants"],
+  },
+  {
+    name: "RugRadar",
+    type: "Projet personnel · Sécurité",
+    role: "Concepteur & développeur",
+    domains: ["Blockchain"],
+    stack: "Rust · alloy · Solidity · SQLite",
+    copy: "Scanner de risque en temps réel des nouveaux tokens listés sur PancakeSwap. Chaque paire est analysée en quelques secondes : honeypot simulé en un seul eth_call, taxes cachées, liquidité et fonctions dangereuses du bytecode. Score sur 100 et alertes Telegram.",
+    color: "#c9a9a0",
+    label: "ANALYSE DE TOKENS EN TEMPS RÉEL",
+    url: "https://github.com/adlanehzx/rugradar",
+    steps: ["Détection des paires", "Simulation & bytecode", "Score & alertes"],
+  },
+  {
+    name: "Nexus",
+    type: "Projet personnel · Assistant IA",
+    role: "Concepteur & développeur",
+    domains: ["IA"],
+    stack: "TypeScript · Expo · Tool calling · pgvector",
+    copy: "Assistant IA sur iPhone, PC et web capable d’exécuter des actions : envoyer un email, lancer les tests d’un projet, piloter un navigateur ou opérer des machines appairées. Registre d’outils, permissions et traçabilité de chaque action.",
+    color: "#b8c7a5",
+    label: "DE L’INTENTION À L’ACTION",
+    url: "https://github.com/adlanehzx/Nexus",
+    steps: ["Mission", "Outils & permissions", "Exécution & traçabilité"],
+  },
+  {
+    name: "Specto",
+    type: "Projet personnel · Qualité",
+    role: "Concepteur & développeur",
+    domains: ["IA", "Web"],
+    stack: "Playwright · BullMQ · CI/CD · IA générative",
+    copy: "Génération et exécution de tests E2E Playwright et API REST à partir de descriptions en langage naturel. Exécution en file d’attente, CLI, auto-healing et intégration GitHub Actions, GitLab et Jenkins.",
+    color: "#aebbd0",
+    label: "DU LANGAGE NATUREL AUX TESTS",
+    url: "https://github.com/adlanehzx/specto",
+    steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
+  },
+  {
+    name: "HankoTrack",
+    type: "Projet annuel ESGI · En équipe",
+    role: "Scrum Master & développeur",
+    domains: ["Web", "Pilotage"],
+    stack: "Nuxt · Express · Prisma · Socket.io",
+    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
+    color: "#b9b2cf",
+    label: "COMMUNAUTÉ & TEMPS RÉEL",
+    url: "https://github.com/adlanehzx/Projet-Annuel",
+    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
+  },
+];
 
 function App() {
-  const [profile, setProfile] = useState<"web" | "ia">("web");
-  const works = portfolios[profile];
+  const [filter, setFilter] = useState<Domain | null>(null);
+  const works = filter
+    ? projects.filter((p) => p.domains.includes(filter))
+    : projects;
+  const count = works.length;
+  const pad = (n: number) => n.toString().padStart(2, "0");
   const [step, setStep] = useState(0);
   const [active, setActive] = useState<number | null>(null);
   const [visited, setVisited] = useState<number[]>([]);
@@ -116,7 +137,7 @@ function App() {
         </a>
         <nav aria-label="Navigation principale">
           <a href="#projets">
-            Travaux <sup>03</sup>
+            Travaux <sup>{pad(projects.length)}</sup>
           </a>
           <a href="#parcours">À propos</a>
           <a href="mailto:contact.adlanehz@gmail.com">
@@ -130,41 +151,33 @@ function App() {
       <main>
         <section className="atelier" aria-labelledby="title">
           <div className="edition">
-            <span>
-              {profile === "web"
-                ? "Développeur Full-Stack"
-                : "Développeur IA & Full-Stack"}
-            </span>
+            <span>Ingénieur logiciel & projets IT</span>
             <span>Paris, FR — Portfolio / 2026</span>
           </div>
           <h1 id="title">
             Des idées aux
             <br />
-            <em>{profile === "web" ? "applications." : "agents IA."}</em>
+            <em>produits.</em>
           </h1>
-          <div className="profile-switch" aria-label="Choisir un profil">
-            <button
-              aria-pressed={profile === "web"}
-              onClick={() => {
-                setProfile("web");
-                setActive(null);
-                setVisited([]);
-                setDetail(false);
-              }}
-            >
-              Développement web
-            </button>
-            <button
-              aria-pressed={profile === "ia"}
-              onClick={() => {
-                setProfile("ia");
-                setActive(null);
-                setVisited([]);
-                setDetail(false);
-              }}
-            >
-              IA & agents
-            </button>
+          <div
+            className="profile-switch"
+            role="group"
+            aria-label="Filtrer les projets par domaine"
+          >
+            {[null, ...domains].map((d) => (
+              <button
+                key={d ?? "all"}
+                aria-pressed={filter === d}
+                onClick={() => {
+                  setFilter(d);
+                  setActive(null);
+                  setVisited([]);
+                  setDetail(false);
+                }}
+              >
+                {d ?? "Tous"}
+              </button>
+            ))}
           </div>
           <div
             className={`stage ${work ? "unfolded" : ""}`}
@@ -222,7 +235,7 @@ function App() {
                     Math.abs(e.clientX - start.current) > 45
                   ) {
                     swiped.current = true;
-                    select(((active ?? -1) + 1) % 3);
+                    select(((active ?? -1) + 1) % count);
                     start.current = null;
                     e.preventDefault();
                   }
@@ -239,7 +252,9 @@ function App() {
             {work && (
               <div className="project-surface" key={active}>
                 <div className="surface-top">
-                  <span>{work.label}</span>
+                  <span>
+                    {pad((active ?? 0) + 1)} / {work.label}
+                  </span>
                   <button
                     onClick={() => setActive(null)}
                     aria-label="Replier le projet"
@@ -251,7 +266,9 @@ function App() {
                   className="project-brief"
                   style={{ background: work.color }}
                 >
-                  <span>{work.type}</span>
+                  <span>
+                    {work.type} · {work.domains.join(" · ")}
+                  </span>
                   <h2>{work.name}</h2>
                   <div
                     className="project-steps"
@@ -279,23 +296,26 @@ function App() {
                 <div className="surface-paging">
                   <button
                     aria-label="Projet précédent"
-                    onClick={() => select(((active ?? 0) + 2) % 3)}
+                    onClick={() => select(((active ?? 0) + count - 1) % count)}
                   >
                     <ArrowLeft aria-hidden="true" />
                   </button>
                   <span>
-                    {work.name} <small>0{(active ?? 0) + 1} / 03</small>
+                    {work.name}{" "}
+                    <small>
+                      {pad((active ?? 0) + 1)} / {pad(count)}
+                    </small>
                   </span>
                   <button
                     aria-label="Projet suivant"
-                    onClick={() => select(((active ?? 0) + 1) % 3)}
+                    onClick={() => select(((active ?? 0) + 1) % count)}
                   >
                     <ArrowRight aria-hidden="true" />
                   </button>
                 </div>
                 <div className="surface-caption">
                   <span>{work.stack}</span>
-                  <span>Projet du CV {profile === "web" ? "Web" : "IA"}</span>
+                  <span>{work.role}</span>
                 </div>
               </div>
             )}
@@ -306,7 +326,7 @@ function App() {
                   aria-pressed={active === index}
                   onClick={() => select(index)}
                 >
-                  <span>0{index + 1}</span>
+                  <span>{pad(index + 1)}</span>
                   {project.name}
                 </button>
               ))}
@@ -319,8 +339,9 @@ function App() {
           </div>
           <div className="intro-bottom">
             <p>
-              Adlane Hamzaoui · Paris · Alternance
-              <br />1 semaine école / 3 semaines entreprise.
+              Adlane Hamzaoui · Paris{" "}
+              <br />
+              Dernière année de Mastère à l’ESGI.
             </p>
             <a href="#projets">
               Explorer les travaux{" "}
@@ -333,10 +354,9 @@ function App() {
         <section className="works" id="projets" aria-labelledby="works-title">
           <div className="section-label">
             <h2 id="works-title">
-              Projets{" "}
-              {profile === "web" ? "web & infrastructure" : "IA & agents"}
+              Projets {filter ? `· ${filter}` : "sélectionnés"}
             </h2>
-            <span>01 — 03</span>
+            <span>01 — {pad(count)}</span>
           </div>
           {works.map((p, i) => (
             <div
@@ -358,12 +378,14 @@ function App() {
                 }}
               >
                 <span className="work-number">
-                  0{i + 1}
+                  {pad(i + 1)}
                   <i className={visited.includes(i) ? "seen" : ""} />
                 </span>
                 <span className="work-name">
                   {p.name}
-                  <small>{p.type}</small>
+                  <small>
+                    {p.type} · {p.role}
+                  </small>
                 </span>
                 <span className="work-stack">{p.stack}</span>
                 <ArrowUpRight className="work-arrow" aria-hidden="true" />
@@ -407,35 +429,24 @@ function App() {
           </div>
           <div className="about-grid">
             <p className="statement">
-              Full-Stack.
+              Du besoin
               <br />
-              <em>IA & automatisation.</em>
+              <em>à la production.</em>
             </p>
             <div>
               <p>
-                Développeur Full-Stack en dernière année de Mastère Ingénierie
-                de la Blockchain à l’ESGI, en alternance.{" "}
-                {profile === "web"
-                  ? "Je conçois des applications web et mobiles de bout en bout : interfaces React / Next.js, APIs Node.js / TypeScript, PostgreSQL, Docker et CI/CD."
-                  : "Je conçois des systèmes multi-agents, des outils d’automatisation et des APIs TypeScript / Node.js, de l’architecture jusqu’au déploiement."}
+                Actuellement en dernière année de Mastère Ingénierie de la
+                Blockchain à l’ESGI, à la recherche de nouvelles opportunités.
               </p>
               <p>
-                {profile === "web"
-                  ? "Architecture logicielle, qualité, tests E2E et automatisation."
-                  : "Agents autonomes, architecture logicielle et blockchain. Expérience web et mobile avec React, Next.js et React Native."}
+                Je conçois et livre des produits numériques de bout en bout :
+                cadrage du besoin, développement, déploiement et coordination
+                des équipes.
               </p>
-              <div className="cv-links">
-                <a className="text-link" href="/cv-web.pdf" download>
-                  CV Développement web <ArrowDown aria-hidden="true" />
-                </a>
-                <a className="text-link" href="/cv-ia.pdf" download>
-                  CV IA & Full-Stack <ArrowDown aria-hidden="true" />
-                </a>
-              </div>
             </div>
           </div>
           <div className="skills-grid">
-            {(profile === "web" ? webSkills : iaSkills).map(([name, value]) => (
+            {skills.map(([name, value]) => (
               <div key={name}>
                 <h3>{name}</h3>
                 <p>{value}</p>
@@ -465,8 +476,7 @@ function App() {
               <span>ESGI Paris · Septembre 2024 — Août 2025</span>
             </p>
             <p>
-              Français & arabe : langues maternelles · Anglais : professionnel
-              technique
+              Français : langue maternelle · Anglais : professionnel technique
             </p>
             <p>
               Travail en équipe agile (Scrum), code review, documentation
@@ -477,7 +487,7 @@ function App() {
         </section>
         <footer id="contact">
           <span className="footer-label">
-            ALTERNANCE · 1 SEMAINE ÉCOLE / 3 SEMAINES ENTREPRISE.
+            OUVERT AUX NOUVELLES OPPORTUNITÉS.
           </span>
           <a className="contact" href={`mailto:${personalInfo.email}`}>
             Échangeons
@@ -486,8 +496,7 @@ function App() {
             </span>
           </a>
           <p className="contact-info">
-            Paris, France · <a href="tel:+33667748988">+33 6 67 74 89 88</a> ·
-            Permis B
+            Paris, France · <a href="tel:+33667748988">+33 6 67 74 89 88</a>
           </p>
           <div className="footer-bottom">
             <span>Adlane Hamzaoui © {new Date().getFullYear()}</span>

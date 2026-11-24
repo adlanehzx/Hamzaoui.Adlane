@@ -8,53 +8,34 @@ export const experiences = [
   {
     id: "rmz",
     company: "RMZ GESTION · Paris",
-    role: "Développeur Full-Stack",
+    role: "Alternant — Systèmes d’information",
     period: "Depuis novembre 2025",
     description: [
-      "Outils internes d’automatisation et workflows n8n pour les opérations",
-      "Intégration PMS / Channel Manager via APIs REST Node.js / TypeScript",
-      "Veille automatisée, alertes et dashboards KPI",
-      "Déploiement Docker / Traefik et gestion PostgreSQL",
+      "Outils internes et automatisation des opérations d’un groupe hôtelier",
+      "Intégration PMS / Channel Manager via APIs REST",
+      "Tableaux de bord KPI et suivi des projets jusqu’à la mise en production",
     ],
   },
   {
     id: "ethos",
-    company: "Ethos.io · USA, remote",
-    role: "Développeur Full-Stack",
+    company: "Ethos DeFi · Nevada, USA (remote)",
+    role: "Ingénieur logiciel",
     period: "Novembre 2024 — Mai 2025",
     description: [
-      "Interfaces mobiles React Native, TypeScript et Expo",
-      "Maintenance et amélioration du backend Express.js / Node.js",
-      "Tests E2E Maestro et pipelines GitHub Actions",
-      "Scrum, revues de code et documentation technique",
+      "Plateforme d’échange crypto et DeFi : React Native, ethers.js, WalletConnect",
+      "Organisation des sprints Scrum et revues de code",
+      "Tests E2E et pipelines CI/CD",
     ],
   },
 ];
-export const webSkills = [
+export const skills = [
   [
-    "Frontend & mobile",
-    "React, Next.js, Nuxt (Vue), React Native, Tailwind CSS",
+    "Développement",
+    "TypeScript, React / Next.js, Node.js, React Native, PostgreSQL",
   ],
-  ["Backend", "TypeScript, Node.js, Express, Django REST, Socket.io"],
-  ["Données", "PostgreSQL, MongoDB, Redis, Prisma, Mongoose"],
-  ["DevOps & CI/CD", "Docker, GitHub Actions, Traefik, Caddy, Git"],
-  ["Tests & qualité", "Playwright, Maestro, Vitest, Postman, Sentry"],
-  [
-    "IA appliquée",
-    "API OpenAI, LangChain / LangGraph, RAG (pgvector), MCP, tool calling",
-  ],
-];
-export const iaSkills = [
-  [
-    "IA & agents",
-    "Systèmes multi-agents, LangChain / LangGraph, MCP, RAG (pgvector), API OpenAI",
-  ],
-  ["Backend", "TypeScript, Node.js, Fastify, Express, Python"],
-  ["Frontend & mobile", "React, Next.js, React Native, Expo, Tailwind CSS"],
-  ["Données", "PostgreSQL, Redis, BullMQ, Prisma, MongoDB"],
-  ["DevOps & CI/CD", "Docker, GitHub Actions, Traefik, Kubernetes, n8n"],
-  [
-    "Tests & observabilité",
-    "Playwright, Maestro, Vitest, OpenTelemetry, Sentry",
-  ],
+  ["Blockchain", "Solidity, Foundry, Rust, ethers.js / alloy, EVM / BNB Chain"],
+  ["IA appliquée", "LLM, RAG (pgvector), agents, MCP, tool calling"],
+  ["DevOps", "Docker, GitHub Actions, Traefik, VPS, Linux"],
+  ["Qualité", "Playwright, Vitest, fuzzing / invariants, Sentry"],
+  ["Pilotage", "Scrum, Jira, cadrage, suivi de livraison, reporting KPI"],
 ];
