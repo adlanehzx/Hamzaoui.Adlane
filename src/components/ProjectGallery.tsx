@@ -98,7 +98,7 @@ export default function ProjectGallery({ name }: { name: string }) {
       >
         <div className="gallery-dialog-bar">
           <span>
-            {name} — {capture.label}
+            <strong>{name}</strong> {capture.label}
           </span>
           <button
             autoFocus

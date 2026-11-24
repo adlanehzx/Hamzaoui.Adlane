@@ -24,7 +24,7 @@ const sources: Record<string, Source[]> = {
   "Corso Motors": [
     {
       src: "/projects/corso-home.webp",
-      ...owner("Site vitrine — accueil", "Showcase website — home"),
+      ...owner("Accueil du site vitrine", "Showcase website home page"),
     },
     {
       src: "/projects/corso-models.webp",
@@ -32,7 +32,7 @@ const sources: Record<string, Source[]> = {
     },
     {
       src: "/projects/corso-login.webp",
-      ...owner("Portail unifié — connexion", "Unified portal — sign-in"),
+      ...owner("Connexion au portail unifié", "Unified portal sign-in"),
     },
     {
       src: "/projects/corso-hub.webp",
@@ -76,11 +76,11 @@ const sources: Record<string, Source[]> = {
     {
       src: "/projects/comp-bike.webp",
       fr: [
-        "Interface de Comp Bike — capture originale",
+        "Interface de Comp Bike",
         "Capture conservée depuis la première version du portfolio.",
       ],
       en: [
-        "Comp Bike interface — original screenshot",
+        "Comp Bike interface",
         "Kept from the first version of this portfolio.",
       ],
     },
@@ -88,35 +88,43 @@ const sources: Record<string, Source[]> = {
       src: "/projects/comp-bike-home.webp",
       fr: [
         "Accueil et présentation du produit",
-        "Application lancée localement · novembre 2026.",
+        "Application lancée localement, novembre 2026.",
       ],
-      en: [
-        "Home page and product overview",
-        "App run locally · November 2026.",
-      ],
+      en: ["Home page and product overview", "App run locally, November 2026."],
     },
     {
       src: "/projects/comp-bike-config.webp",
       fr: [
         "Configuration et sélection des composants",
-        "Interface locale · données de démonstration présentes dans le dépôt.",
+        "Interface locale, données de démonstration présentes dans le dépôt.",
       ],
       en: [
         "Build configuration and component picker",
-        "Local run · demo data shipped with the repository.",
+        "Local run, demo data shipped with the repository.",
       ],
     },
   ],
   "Hackathon Michelin": [
     {
+      src: "/projects/michelin-overview.webp",
+      fr: [
+        "Recherche, création de parcours et profil",
+        "Version web Expo locale, établissements fictifs servis par une API simulée.",
+      ],
+      en: [
+        "Search, trail builder and profile",
+        "Local Expo web build, fictional venues served by a mocked API.",
+      ],
+    },
+    {
       src: "/projects/michelin-search.webp",
       fr: [
         "Recherche d’établissements et distinctions",
-        "Version web Expo locale · données de démonstration fictives.",
+        "Version web Expo locale, données de démonstration fictives.",
       ],
       en: [
         "Venue search and distinctions",
-        "Local Expo web build · fictional demo data.",
+        "Local Expo web build, fictional demo data.",
       ],
     },
     {
@@ -147,22 +155,22 @@ const sources: Record<string, Source[]> = {
       src: "/projects/hankotrack-home.webp",
       fr: [
         "Accueil de HankoTrack",
-        "Frontend Nuxt lancé localement · vue publique, sans connexion au backend.",
+        "Frontend Nuxt lancé localement, vue publique, sans connexion au backend.",
       ],
       en: [
         "HankoTrack home page",
-        "Nuxt frontend run locally · public view, no backend connection.",
+        "Nuxt frontend run locally, public view, no backend connection.",
       ],
     },
     {
       src: "/projects/hankotrack-features.webp",
       fr: [
         "Fonctionnalités et parcours de découverte",
-        "Page publique de l’application · novembre 2026.",
+        "Page publique de l’application, novembre 2026.",
       ],
       en: [
         "Features and discovery flow",
-        "Public page of the app · November 2026.",
+        "Public page of the app, November 2026.",
       ],
     },
   ],
@@ -205,33 +213,33 @@ const sources: Record<string, Source[]> = {
       src: "/projects/bastion-tests.webp",
       fr: [
         "24 tests unitaires et de fuzzing au vert",
-        "Sortie réelle de forge test · novembre 2026.",
+        "Sortie réelle de forge test, novembre 2026.",
       ],
       en: [
         "24 passing unit and fuzz tests",
-        "Actual forge test output · November 2026.",
+        "Actual forge test output, November 2026.",
       ],
     },
     {
       src: "/projects/bastion-invariants.webp",
       fr: [
         "Invariants : 128 campagnes de 8 192 appels",
-        "Sortie réelle de forge test · novembre 2026.",
+        "Sortie réelle de forge test, novembre 2026.",
       ],
       en: [
         "Invariants: 128 runs of 8,192 calls",
-        "Actual forge test output · November 2026.",
+        "Actual forge test output, November 2026.",
       ],
     },
     {
       src: "/projects/bastion-e2e.webp",
       fr: [
         "Bout en bout : le keeper Rust exécute un DCA",
-        "Chaîne locale anvil · sortie réelle de scripts/e2e.sh.",
+        "Chaîne locale anvil, sortie réelle de scripts/e2e.sh.",
       ],
       en: [
         "End to end: the Rust keeper executes a DCA order",
-        "Local anvil chain · actual scripts/e2e.sh output.",
+        "Local anvil chain, actual scripts/e2e.sh output.",
       ],
     },
   ],
@@ -251,22 +259,22 @@ const sources: Record<string, Source[]> = {
       src: "/projects/rugradar-watch.webp",
       fr: [
         "Mode watch : trois paires détectées et notées",
-        "Chaîne BNB locale (ganache) · sortie réelle du scanner.",
+        "Chaîne BNB locale (ganache), sortie réelle du scanner.",
       ],
       en: [
         "Watch mode: three new pairs found and scored",
-        "Local BNB chain (ganache) · actual scanner output.",
+        "Local BNB chain (ganache), actual scanner output.",
       ],
     },
     {
       src: "/projects/rugradar-check.webp",
       fr: [
         "Analyse détaillée d’un honeypot",
-        "Sortie réelle de rugradar check · chaîne BNB locale.",
+        "Sortie réelle de rugradar check, chaîne BNB locale.",
       ],
       en: [
         "Detailed analysis of a honeypot",
-        "Actual rugradar check output · local BNB chain.",
+        "Actual rugradar check output, local BNB chain.",
       ],
     },
   ],
@@ -275,11 +283,11 @@ const sources: Record<string, Source[]> = {
       src: "/projects/nexus-login.webp",
       fr: [
         "Connexion à la supervision Nexus",
-        "Interface locale · les vues internes nécessitent le backend et une session administrateur.",
+        "Interface locale, les vues internes nécessitent le backend et une session administrateur.",
       ],
       en: [
         "Nexus console sign-in",
-        "Local run · internal views need the backend and an admin session.",
+        "Local run, internal views need the backend and an admin session.",
       ],
     },
   ],
@@ -287,23 +295,23 @@ const sources: Record<string, Source[]> = {
     {
       src: "/projects/soravyn-studio.webp",
       fr: [
-        "Campaign Studio — identité et campagnes",
+        "Campaign Studio : identité et campagnes",
         "Instance locale avec une base de démonstration isolée.",
       ],
       en: [
-        "Campaign Studio — brand and campaigns",
+        "Campaign Studio: brand and campaigns",
         "Local instance with an isolated demo database.",
       ],
     },
     {
       src: "/projects/soravyn-dashboard.webp",
       fr: [
-        "Command Center — tableau de bord initial",
-        "Installation locale vierge · aucun agent ni campagne en cours.",
+        "Command Center : tableau de bord initial",
+        "Installation locale vierge, aucun agent ni campagne en cours.",
       ],
       en: [
-        "Command Center — initial dashboard",
-        "Fresh local install · no agents or campaigns running.",
+        "Command Center: initial dashboard",
+        "Fresh local install, no agents or campaigns running.",
       ],
     },
   ],
@@ -312,19 +320,19 @@ const sources: Record<string, Source[]> = {
       src: "/projects/specto-home.webp",
       fr: [
         "Accueil de Specto",
-        "Frontend Next.js lancé localement · page publique.",
+        "Frontend Next.js lancé localement, page publique.",
       ],
-      en: ["Specto home page", "Next.js frontend run locally · public page."],
+      en: ["Specto home page", "Next.js frontend run locally, public page."],
     },
     {
       src: "/projects/specto-features.webp",
       fr: [
         "Présentation des types de tests",
-        "Vue publique · aucun test IA exécuté pour cette capture.",
+        "Vue publique, aucun test IA exécuté pour cette capture.",
       ],
       en: [
         "Supported test types",
-        "Public view · no AI test run for this screenshot.",
+        "Public view, no AI test run for this screenshot.",
       ],
     },
   ],

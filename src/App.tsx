@@ -99,7 +99,9 @@ function ProjectSheet({
       ref={dialog}
       className="sheet"
       aria-labelledby="sheet-title"
-      onClose={onClose}
+      onClose={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -178,27 +180,37 @@ function ProjectSheet({
 }
 
 function App() {
-  const [open, setOpen] = useState<number | null>(() => {
-    const found = projects.findIndex(
-      (p) => `#${slug(p.name)}` === window.location.hash,
-    );
-    return found >= 0 ? found : null;
-  });
+  const [hash, setHash] = useState(() => window.location.hash);
   const object = useRef<HTMLButtonElement>(null);
-  const current = open === null ? null : (projects[open] ?? null);
+  const open = projects.findIndex((p) => `#${slug(p.name)}` === hash);
+  const current = open >= 0 ? (projects[open] ?? null) : null;
 
+  // The open project lives in the URL, so the browser back button closes it.
   useEffect(() => {
-    const url = window.location.pathname;
-    if (current)
-      window.history.replaceState(null, "", `${url}#${slug(current.name)}`);
-    else if (projects.some((p) => `#${slug(p.name)}` === window.location.hash))
-      window.history.replaceState(null, "", url);
-  }, [current]);
+    const sync = () => setHash(window.location.hash);
+    window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
+  }, []);
 
+  const show = (index: number) => {
+    const target = projects[index];
+    if (!target) return;
+    const url = `#${slug(target.name)}`;
+    if (current) window.history.replaceState(window.history.state, "", url);
+    else window.history.pushState({ sheet: true }, "", url);
+    setHash(url);
+  };
+  const close = () => {
+    if (!current) return;
+    if ((window.history.state as { sheet?: boolean } | null)?.sheet) {
+      window.history.back();
+    } else {
+      window.history.replaceState(null, "", window.location.pathname);
+      setHash("");
+    }
+  };
   const move = (delta: number) =>
-    setOpen((i) =>
-      i === null ? 0 : (i + delta + projects.length) % projects.length,
-    );
+    show((open + delta + projects.length) % projects.length);
 
   return (
     <>
@@ -299,7 +311,7 @@ function App() {
                     <ProjectCard
                       key={project.name}
                       project={project}
-                      onOpen={() => setOpen(projects.indexOf(project))}
+                      onOpen={() => show(projects.indexOf(project))}
                     />
                   ))}
                 </ul>
@@ -380,11 +392,7 @@ function App() {
         </div>
       </footer>
 
-      <ProjectSheet
-        project={current}
-        onClose={() => setOpen(null)}
-        onMove={move}
-      />
+      <ProjectSheet project={current} onClose={close} onMove={move} />
     </>
   );
 }

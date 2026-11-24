@@ -64,6 +64,9 @@ svg {
   stroke-width: 1.6;
   flex-shrink: 0;
 }
+html:has(.sheet[open]) {
+  overflow: hidden;
+}
 :focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
@@ -338,7 +341,7 @@ svg {
 .card-wide .card-button {
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: 40px;
-  align-items: end;
+  align-items: center;
 }
 .card-wide .card-name {
   font-size: clamp(40px, 4.4vw, 60px);
@@ -577,8 +580,13 @@ svg {
 }
 .gallery-dialog img {
   width: 100%;
+  max-height: calc(100svh - 150px);
+  object-fit: contain;
   margin: 12px 0;
   border-radius: 3px;
+}
+.gallery-dialog-bar strong {
+  margin-right: 8px;
 }
 .gallery-dialog small {
   color: #b4bac0;
@@ -589,8 +597,8 @@ svg {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 32px;
-  margin-top: clamp(96px, 12vw, 160px);
-  padding: clamp(56px, 9vw, 120px) var(--gutter);
+  margin-top: clamp(64px, 8vw, 112px);
+  padding: clamp(56px, 8vw, 104px) var(--gutter);
   border-top: 1px solid var(--rule);
 }
 .about-intro p {
@@ -616,7 +624,7 @@ svg {
 }
 .jobs > li {
   display: grid;
-  grid-template-columns: 11em minmax(0, 1fr);
+  grid-template-columns: 13.5em minmax(0, 1fr);
   column-gap: 24px;
 }
 .job-period {
