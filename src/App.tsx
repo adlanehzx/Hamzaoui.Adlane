@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { experiences, personalInfo, skills } from "./data/portfolioData";
 
-type Category = "client" | "hackathon" | "perso";
+type Category = "client" | "hackathon" | "ecole" | "perso";
 const categories: Record<
   Category,
   { title: string; short: string; intro: string }
@@ -26,6 +26,12 @@ const categories: Record<
     title: "Hackathons",
     short: "Hackathons",
     intro: "Des produits construits en équipe, en temps limité.",
+  },
+  ecole: {
+    title: "Projets annuels ESGI",
+    short: "ESGI",
+    intro:
+      "Projets de fin d’année menés en équipe à l’ESGI, de la conception au déploiement.",
   },
   perso: {
     title: "Projets personnels",
@@ -92,6 +98,34 @@ const projects: {
     ],
   },
   {
+    name: "HankoTrack",
+    category: "ecole",
+    type: "Suivi d’anime · En équipe",
+    role: "Scrum Master & développeur",
+    stack: "Nuxt · Express · Prisma · Socket.io",
+    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
+    color: "#b9b2cf",
+    label: "COMMUNAUTÉ & TEMPS RÉEL",
+    url: "https://github.com/adlanehzx/Projet-Annuel",
+    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
+  },
+  {
+    name: "Kanboard",
+    category: "ecole",
+    type: "Gestion de projet · En binôme",
+    role: "Développeur full-stack",
+    stack: "Laravel · Blade · MySQL · Tailwind CSS",
+    copy: "Application de gestion de projet en Kanban : tableaux, listes et cartes déplaçables, membres et assignations, vue calendrier jour, semaine et mois avec export ICS, partage public d’une carte. Chargement des tableaux optimisé de 179 à 15 requêtes, déploiement sur DigitalOcean derrière Traefik.",
+    color: "#a9c2c4",
+    label: "TABLEAUX & CALENDRIER",
+    url: "https://github.com/ilyes-i-ben/kanboard",
+    steps: [
+      "Tableaux & cartes",
+      "Calendrier & export ICS",
+      "Partage & déploiement",
+    ],
+  },
+  {
     name: "Bastion",
     category: "perso",
     type: "Finance décentralisée",
@@ -151,25 +185,13 @@ const projects: {
     url: "https://github.com/adlanehzx/specto",
     steps: ["Description", "Génération & file d’attente", "Tests E2E & API"],
   },
-  {
-    name: "HankoTrack",
-    category: "perso",
-    type: "Projet annuel ESGI · En équipe",
-    role: "Scrum Master & développeur",
-    stack: "Nuxt · Express · Prisma · Socket.io",
-    copy: "Plateforme communautaire de suivi d’anime : watchlist, collections, critiques et recommandations personnalisées, avec mises à jour en temps réel. Organisation de l’équipe en sprints, revues de code, tests E2E Playwright et déploiement continu.",
-    color: "#b9b2cf",
-    label: "COMMUNAUTÉ & TEMPS RÉEL",
-    url: "https://github.com/adlanehzx/Projet-Annuel",
-    steps: ["Sprints & répartition", "Watchlist & critiques", "Temps réel"],
-  },
 ];
 
 function App() {
   const works = projects;
   const count = works.length;
   const pad = (n: number) => n.toString().padStart(2, "0");
-  const order: Category[] = ["client", "hackathon", "perso"];
+  const order: Category[] = ["client", "hackathon", "ecole", "perso"];
   const startsGroup = (i: number) =>
     i === 0 || works[i - 1].category !== works[i].category;
   const [step, setStep] = useState(0);

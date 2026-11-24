@@ -123,4 +123,26 @@ export const projectCaptures: Record<string, ProjectCapture[]> = {
       note: "Version web Expo locale, sans backend.",
     },
   ],
+  Kanboard: [
+    {
+      src: "/projects/kanboard-board.webp",
+      label: "Vue d’un tableau Kanban",
+      note: "Capture issue du dépôt du projet.",
+    },
+    {
+      src: "/projects/kanboard-boards.webp",
+      label: "Liste des tableaux",
+      note: "Capture issue du dépôt du projet.",
+    },
+    {
+      src: "/projects/kanboard-card.webp",
+      label: "Détail d’une carte",
+      note: "Capture issue du dépôt du projet.",
+    },
+    {
+      src: "/projects/kanboard-members.webp",
+      label: "Gestion des membres",
+      note: "Capture issue du dépôt du projet.",
+    },
+  ],
 };

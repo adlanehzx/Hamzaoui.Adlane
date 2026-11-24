@@ -967,7 +967,7 @@ nav a:last-child span,
   top: 5%;
 }
 .coordinates {
-  bottom: 110px;
+  bottom: 150px;
 }
 @media (min-width: 701px) and (max-width: 1024px) {
   h1 {
@@ -1065,7 +1065,7 @@ nav a:last-child span,
   }
   .coordinates {
     left: 0;
-    bottom: 196px;
+    bottom: 246px;
     font-size: 7px;
   }
   .project-navigation {
@@ -1463,7 +1463,7 @@ nav a:last-child span,
     height: 560px;
   }
   .coordinates {
-    bottom: 160px;
+    bottom: 190px;
   }
 }
 @media (max-width: 700px) {
@@ -1472,7 +1472,7 @@ nav a:last-child span,
   }
   .stage {
     margin-top: 10px;
-    height: 490px;
+    height: 540px;
   }
   .stage.unfolded {
     min-height: 520px;
